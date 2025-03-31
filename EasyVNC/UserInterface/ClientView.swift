@@ -1,5 +1,5 @@
 //
-//  VNCDisplayView.swift
+//  ClientView.swift
 //  EasyVNC
 //
 //  Created by Giuseppe Rocco on 31/03/25.
@@ -7,7 +7,7 @@
 
 import AppKit
 
-final class VNCDisplayView: NSView {
+final class ClientView: NSView {
     
     private var keyMonitor: Any?
     private var lastModifierFlags: NSEvent.ModifierFlags = []
@@ -20,7 +20,7 @@ final class VNCDisplayView: NSView {
         }
     }
     
-    var client: VNCClient?
+    var client: ViewModel?
     
     // MARK: - View Lifecycle
     
@@ -66,14 +66,10 @@ final class VNCDisplayView: NSView {
     /// Called by the local event monitor for keyDown, keyUp, and flagsChanged.
     private func handleLocalEvent(_ event: NSEvent) {
         switch event.type {
-        case .flagsChanged:
-            flagsChanged(with: event)
-        case .keyDown:
-            keyDown(with: event)
-        case .keyUp:
-            keyUp(with: event)
-        default:
-            break
+        case .flagsChanged: flagsChanged(with: event)
+        case .keyDown:      keyDown(with: event)
+        case .keyUp:        keyUp(with: event)
+        default:            break
         }
     }
     

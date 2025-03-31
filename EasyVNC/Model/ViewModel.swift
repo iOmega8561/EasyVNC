@@ -1,5 +1,5 @@
 //
-//  VNCClient.swift
+//  ViewModel.swift
 //  EasyVNC
 //
 //  Created by Giuseppe Rocco on 31/03/25.
@@ -8,9 +8,9 @@
 import Foundation
 import SwiftUI
 
-final class VNCClient: NSObject, ObservableObject {
+final class ViewModel: NSObject, ObservableObject {
     
-    private let wrapper = VNCClientWrapper()
+    private let wrapper = ClientWrapper()
 
     @Published var image: CGImage?
 
@@ -37,7 +37,7 @@ final class VNCClient: NSObject, ObservableObject {
     }
 }
 
-extension VNCClient: VNCClientDelegate {
+extension ViewModel: ClientDelegate {
     
     func didUpdateFramebuffer(_ data: UnsafePointer<UInt8>, width: Int32, height: Int32, stride: Int32) {
                         

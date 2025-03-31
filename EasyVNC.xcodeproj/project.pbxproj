@@ -30,9 +30,22 @@
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		E32DF1C62D9B46460099716F /* Exceptions for "EasyVNC" folder in "Compile Sources" phase from "EasyVNC" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = E360A1D62D9AAA8600DC96EB /* Sources */;
+			membershipExceptions = (
+				LibVNC/Callbacks.h,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		E360A1DC2D9AAA8600DC96EB /* EasyVNC */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				E32DF1C62D9B46460099716F /* Exceptions for "EasyVNC" folder in "Compile Sources" phase from "EasyVNC" target */,
+			);
 			path = EasyVNC;
 			sourceTree = "<group>";
 		};
@@ -329,7 +342,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.giusepperocco.EasyVNC;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "EasyVNC/ApplicationCore/Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "EasyVNC/LibVNC/Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -364,7 +377,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.giusepperocco.EasyVNC;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "EasyVNC/ApplicationCore/Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "EasyVNC/LibVNC/Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
