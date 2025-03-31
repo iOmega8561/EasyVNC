@@ -40,15 +40,18 @@ final class VNCClient: NSObject, ObservableObject {
 extension VNCClient: VNCClientDelegate {
     
     func didUpdateFramebuffer(_ data: UnsafePointer<UInt8>, width: Int32, height: Int32, stride: Int32) {
-                
+                        
         guard let provider = CGDataProvider(
             dataInfo: nil,
             data: data,
             size: Int(stride * height),
             releaseData: { _,_,_ in }
         ) else { return }
-        
-        let colorSpace = CGColorSpaceCreateDeviceRGB()
+                
+        let bitmapInfo: CGBitmapInfo = [
+            .byteOrderDefault,
+            CGBitmapInfo(rawValue: CGImageAlphaInfo.noneSkipLast.rawValue)
+        ]
         
         let cgImage = CGImage(
             width: Int(width),
@@ -56,8 +59,8 @@ extension VNCClient: VNCClientDelegate {
             bitsPerComponent: 8,
             bitsPerPixel: 32,
             bytesPerRow: Int(stride),
-            space: colorSpace,
-            bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.noneSkipFirst.rawValue),
+            space: CGColorSpaceCreateDeviceRGB(),
+            bitmapInfo: bitmapInfo,
             provider: provider,
             decode: nil,
             shouldInterpolate: true,

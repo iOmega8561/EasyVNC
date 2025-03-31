@@ -56,6 +56,7 @@ static void framebuffer_update_callback(rfbClient* cl, int x, int y, int w, int 
     if (_client) return NO;
 
     _client = rfbGetClient(8, 3, 4);
+    
     _client->canHandleNewFBSize = TRUE;
     _client->MallocFrameBuffer = resize_callback;
     _client->GotFrameBufferUpdate = framebuffer_update_callback;
