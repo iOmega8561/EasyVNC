@@ -7,39 +7,39 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		E360A1DA2D9AAA8600DC96EB /* VNCViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VNCViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E360A1DA2D9AAA8600DC96EB /* EasyVNC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyVNC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E360A1ED2D9AAB6F00DC96EB /* setup-dependencies.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "setup-dependencies.sh"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		E360EA7E2D9AC60A00DC96EB /* Exceptions for "libjpeg" folder in "VNCViewer" target */ = {
+		E360EA7E2D9AC60A00DC96EB /* Exceptions for "libjpeg" folder in "EasyVNC" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				lib/libjpeg.a,
 				lib/libturbojpeg.a,
 			);
-			target = E360A1D92D9AAA8600DC96EB /* VNCViewer */;
+			target = E360A1D92D9AAA8600DC96EB /* EasyVNC */;
 		};
-		E360EAB32D9ADB5800DC96EB /* Exceptions for "libvnc" folder in "VNCViewer" target */ = {
+		E360EAB32D9ADB5800DC96EB /* Exceptions for "libvnc" folder in "EasyVNC" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				lib/libvncclient.a,
 				lib/libvncserver.a,
 			);
-			target = E360A1D92D9AAA8600DC96EB /* VNCViewer */;
+			target = E360A1D92D9AAA8600DC96EB /* EasyVNC */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		E360A1DC2D9AAA8600DC96EB /* VNCViewer */ = {
+		E360A1DC2D9AAA8600DC96EB /* EasyVNC */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = VNCViewer;
+			path = EasyVNC;
 			sourceTree = "<group>";
 		};
 		E360A2032D9AB50D00DC96EB /* libvnc */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				E360EAB32D9ADB5800DC96EB /* Exceptions for "libvnc" folder in "VNCViewer" target */,
+				E360EAB32D9ADB5800DC96EB /* Exceptions for "libvnc" folder in "EasyVNC" target */,
 			);
 			path = libvnc;
 			sourceTree = "<group>";
@@ -52,7 +52,7 @@
 		E360EA772D9AC5F400DC96EB /* libjpeg */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				E360EA7E2D9AC60A00DC96EB /* Exceptions for "libjpeg" folder in "VNCViewer" target */,
+				E360EA7E2D9AC60A00DC96EB /* Exceptions for "libjpeg" folder in "EasyVNC" target */,
 			);
 			path = libjpeg;
 			sourceTree = "<group>";
@@ -73,7 +73,7 @@
 		E360A1D12D9AAA8600DC96EB = {
 			isa = PBXGroup;
 			children = (
-				E360A1DC2D9AAA8600DC96EB /* VNCViewer */,
+				E360A1DC2D9AAA8600DC96EB /* EasyVNC */,
 				E360A1EC2D9AAB6000DC96EB /* Third-Party */,
 				E360A1DB2D9AAA8600DC96EB /* Products */,
 			);
@@ -82,7 +82,7 @@
 		E360A1DB2D9AAA8600DC96EB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E360A1DA2D9AAA8600DC96EB /* VNCViewer.app */,
+				E360A1DA2D9AAA8600DC96EB /* EasyVNC.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -101,9 +101,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E360A1D92D9AAA8600DC96EB /* VNCViewer */ = {
+		E360A1D92D9AAA8600DC96EB /* EasyVNC */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E360A1E92D9AAA8800DC96EB /* Build configuration list for PBXNativeTarget "VNCViewer" */;
+			buildConfigurationList = E360A1E92D9AAA8800DC96EB /* Build configuration list for PBXNativeTarget "EasyVNC" */;
 			buildPhases = (
 				E360A1D62D9AAA8600DC96EB /* Sources */,
 				E360A1D72D9AAA8600DC96EB /* Frameworks */,
@@ -114,14 +114,14 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				E360A1DC2D9AAA8600DC96EB /* VNCViewer */,
+				E360A1DC2D9AAA8600DC96EB /* EasyVNC */,
 				E360D25B2D9AC0FD00DC96EB /* zlib */,
 			);
-			name = VNCViewer;
+			name = EasyVNC;
 			packageProductDependencies = (
 			);
 			productName = VNCViewer;
-			productReference = E360A1DA2D9AAA8600DC96EB /* VNCViewer.app */;
+			productReference = E360A1DA2D9AAA8600DC96EB /* EasyVNC.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -139,7 +139,7 @@
 					};
 				};
 			};
-			buildConfigurationList = E360A1D52D9AAA8600DC96EB /* Build configuration list for PBXProject "VNCViewer" */;
+			buildConfigurationList = E360A1D52D9AAA8600DC96EB /* Build configuration list for PBXProject "EasyVNC" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -155,7 +155,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E360A1D92D9AAA8600DC96EB /* VNCViewer */,
+				E360A1D92D9AAA8600DC96EB /* EasyVNC */,
 			);
 		};
 /* End PBXProject section */
@@ -304,7 +304,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = VNCViewer/Resources/VNCViewer.entitlements;
+				CODE_SIGN_ENTITLEMENTS = EasyVNC/Resources/EasyVNC.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -326,10 +326,10 @@
 					"$(PROJECT_DIR)/Third-Party/libjpeg/lib",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.giusepperocco.VNCViewer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.giusepperocco.EasyVNC;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "VNCViewer/ApplicationCore/Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "EasyVNC/ApplicationCore/Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -339,7 +339,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = VNCViewer/Resources/VNCViewer.entitlements;
+				CODE_SIGN_ENTITLEMENTS = EasyVNC/Resources/EasyVNC.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -361,10 +361,10 @@
 					"$(PROJECT_DIR)/Third-Party/libjpeg/lib",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.giusepperocco.VNCViewer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.giusepperocco.EasyVNC;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "VNCViewer/ApplicationCore/Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "EasyVNC/ApplicationCore/Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -372,7 +372,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E360A1D52D9AAA8600DC96EB /* Build configuration list for PBXProject "VNCViewer" */ = {
+		E360A1D52D9AAA8600DC96EB /* Build configuration list for PBXProject "EasyVNC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E360A1E72D9AAA8800DC96EB /* Debug */,
@@ -381,7 +381,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E360A1E92D9AAA8800DC96EB /* Build configuration list for PBXNativeTarget "VNCViewer" */ = {
+		E360A1E92D9AAA8800DC96EB /* Build configuration list for PBXNativeTarget "EasyVNC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E360A1EA2D9AAA8800DC96EB /* Debug */,

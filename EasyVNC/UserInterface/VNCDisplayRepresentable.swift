@@ -1,6 +1,6 @@
 //
 //  VNCDisplayRepresentable.swift
-//  VNCViewer
+//  EasyVNC
 //
 //  Created by Giuseppe Rocco on 31/03/25.
 //
