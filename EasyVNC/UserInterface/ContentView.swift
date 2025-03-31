@@ -9,41 +9,52 @@ import SwiftUI
 
 struct ContentView: View {
     
+    let connection: Connection?
+    
     @StateObject private var client = VNCClient()
     
     @State private var isConnected = false
-
-    private var aspectRatio: CGFloat {
+    
+    @Environment(\.dismiss) private var dismiss
+    
+    private var screenWidth: CGFloat? {
         guard let image = client.image else {
-            return 1
+            return nil
         }
         
-        let width  = CGFloat(image.width)
-        let height = CGFloat(image.height)
+        return .init(image.width)
+    }
+    
+    private var screenHeight: CGFloat? {
+        guard let image = client.image else {
+            return nil
+        }
         
-        return width / height
+        return .init(image.height)
+    }
+    
+    private var aspectRatio: CGFloat {
+        guard let screenWidth,
+              let screenHeight else { return 1 }
+        
+        return screenWidth / screenHeight
     }
     
     var body: some View {
         
-        VStack {
-            
-            VNCDisplayRepresentable(client: client)
-                .aspectRatio(aspectRatio, contentMode: .fit)
-            
-            HStack {
-                Button("Connect") {
-                    if !isConnected {
-                        client.connect(host: "127.0.0.1", port: 5901)
-                        isConnected = true
-                    }
+        VNCClientRepresentable(client: client)
+            .frame(minWidth: screenWidth, minHeight: screenHeight)
+            .aspectRatio(aspectRatio, contentMode: .fit)
+            .task { @MainActor in
+                
+                guard let connection,
+                      await client.connect(host: connection.host,
+                                           port: connection.port) else {
+                    dismiss(); return
                 }
-                Button("Disconnect") {
-                    client.disconnect()
-                    isConnected = false
-                }
+                
+                isConnected = true
             }
-            .padding()
-        }
+            .onDisappear { if isConnected { client.disconnect() } }
     }
 }
