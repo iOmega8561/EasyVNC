@@ -35,7 +35,15 @@ final class VNCDisplayView: NSView {
         sendMouseEvent(event, buttonMask: 1)
     }
 
+    override func rightMouseDown(with event: NSEvent) {
+        sendMouseEvent(event, buttonMask: 4)
+    }
+    
     override func mouseUp(with event: NSEvent) {
+        sendMouseEvent(event, buttonMask: 0)
+    }
+    
+    override func rightMouseUp(with event: NSEvent) {
         sendMouseEvent(event, buttonMask: 0)
     }
 
@@ -51,11 +59,25 @@ final class VNCDisplayView: NSView {
         client?.sendKey(key: Int(event.keyCode), down: false)
     }
 
+    override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        self.window?.makeFirstResponder(self)
+    }
+    
     private func sendMouseEvent(_ event: NSEvent, buttonMask: Int) {
         guard let client = client else { return }
         let location = convert(event.locationInWindow, from: nil)
-        let x = Int(location.x)
-        let y = Int(bounds.height - location.y) // Flip Y axis
+        
+        let fbWidth = CGFloat(client.image?.width ?? Int(bounds.width))
+        let fbHeight = CGFloat(client.image?.height ?? Int(bounds.height))
+        
+        let scaleX = fbWidth / bounds.width
+        let scaleY = fbHeight / bounds.height
+        
+        let x = Int(location.x * scaleX)
+        let y = Int((bounds.height - location.y) * scaleY) // Flip Y axis
+        
         client.sendMouse(x: x, y: y, buttons: buttonMask)
     }
+
 }

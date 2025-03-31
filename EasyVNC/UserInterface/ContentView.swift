@@ -13,11 +13,24 @@ struct ContentView: View {
     
     @State private var isConnected = false
 
+    private var aspectRatio: CGFloat {
+        guard let image = client.image else {
+            return 1
+        }
+        
+        let width  = CGFloat(image.width)
+        let height = CGFloat(image.height)
+        
+        return width / height
+    }
+    
     var body: some View {
+        
         VStack {
+            
             VNCDisplayRepresentable(client: client)
-                .frame(minWidth: 640, minHeight: 480)
-
+                .aspectRatio(aspectRatio, contentMode: .fit)
+            
             HStack {
                 Button("Connect") {
                     if !isConnected {
