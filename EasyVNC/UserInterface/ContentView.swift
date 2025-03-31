@@ -11,7 +11,7 @@ struct ContentView: View {
     
     let connection: Connection?
     
-    @StateObject private var client = VNCClient()
+    @StateObject private var client = ViewModel()
     
     @State private var isConnected = false
     
@@ -42,7 +42,7 @@ struct ContentView: View {
     
     var body: some View {
         
-        VNCClientRepresentable(client: client)
+        ClientRepresentable(client: client)
             .frame(minWidth: screenWidth, minHeight: screenHeight)
             .aspectRatio(aspectRatio, contentMode: .fit)
             .task { @MainActor in
