@@ -20,7 +20,7 @@
 			);
 			target = E360A1D92D9AAA8600DC96EB /* VNCViewer */;
 		};
-		E360EA972D9AC81100DC96EB /* Exceptions for "libvnc" folder in "VNCViewer" target */ = {
+		E360EAB32D9ADB5800DC96EB /* Exceptions for "libvnc" folder in "VNCViewer" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				lib/libvncclient.a,
@@ -39,7 +39,7 @@
 		E360A2032D9AB50D00DC96EB /* libvnc */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				E360EA972D9AC81100DC96EB /* Exceptions for "libvnc" folder in "VNCViewer" target */,
+				E360EAB32D9ADB5800DC96EB /* Exceptions for "libvnc" folder in "VNCViewer" target */,
 			);
 			path = libvnc;
 			sourceTree = "<group>";
@@ -148,6 +148,8 @@
 			);
 			mainGroup = E360A1D12D9AAA8600DC96EB;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E360A1DB2D9AAA8600DC96EB /* Products */;
 			projectDirPath = "";
@@ -311,7 +313,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Third-Party/libvnc/include";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Third-Party/libvnc/include/**";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -346,7 +348,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Third-Party/libvnc/include";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Third-Party/libvnc/include/**";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
