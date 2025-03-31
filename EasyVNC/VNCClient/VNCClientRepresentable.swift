@@ -1,5 +1,5 @@
 //
-//  VNCDisplayRepresentable.swift
+//  VNCClientRepresentable.swift
 //  EasyVNC
 //
 //  Created by Giuseppe Rocco on 31/03/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct VNCDisplayRepresentable: NSViewRepresentable {
+struct VNCClientRepresentable: NSViewRepresentable {
     @ObservedObject var client: VNCClient
 
     func makeNSView(context: Context) -> VNCDisplayView {

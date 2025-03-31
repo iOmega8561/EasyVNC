@@ -20,8 +20,8 @@ final class VNCClient: NSObject, ObservableObject {
         wrapper.delegate = self
     }
 
-    func connect(host: String, port: Int) {
-        _ = wrapper.connect(toHost: host, port: Int32(port))
+    func connect(host: String, port: Int) async -> Bool {
+        await wrapper.connect(toHost: host, port: Int32(port))
     }
 
     func sendMouse(x: Int, y: Int, buttons: Int) {

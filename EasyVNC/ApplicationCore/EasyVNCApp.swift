@@ -9,9 +9,18 @@ import SwiftUI
 
 @main
 struct EasyVNCApp: App {
+    
     var body: some Scene {
-        WindowGroup {
-            ContentView()
+        
+        WindowGroup(id: "main") {
+            ConnectionView()
+                .frame(width: 300, height: 350)
         }
+        .windowResizability(.contentSize)
+        
+        WindowGroup(id: "connection", for: Connection.self) { $conn in
+            ContentView(connection: conn)
+        }
+        .windowResizability(.contentSize)
     }
 }
