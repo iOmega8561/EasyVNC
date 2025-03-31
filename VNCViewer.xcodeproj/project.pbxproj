@@ -12,7 +12,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		E360A2072D9AB52300DC96EB /* Exceptions for "libvnc" folder in "VNCViewer" target */ = {
+		E360EA7E2D9AC60A00DC96EB /* Exceptions for "libjpeg" folder in "VNCViewer" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				lib/libjpeg.a,
+				lib/libturbojpeg.a,
+			);
+			target = E360A1D92D9AAA8600DC96EB /* VNCViewer */;
+		};
+		E360EA972D9AC81100DC96EB /* Exceptions for "libvnc" folder in "VNCViewer" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				lib/libvncclient.a,
@@ -31,9 +39,22 @@
 		E360A2032D9AB50D00DC96EB /* libvnc */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				E360A2072D9AB52300DC96EB /* Exceptions for "libvnc" folder in "VNCViewer" target */,
+				E360EA972D9AC81100DC96EB /* Exceptions for "libvnc" folder in "VNCViewer" target */,
 			);
 			path = libvnc;
+			sourceTree = "<group>";
+		};
+		E360D25B2D9AC0FD00DC96EB /* zlib */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = zlib;
+			sourceTree = "<group>";
+		};
+		E360EA772D9AC5F400DC96EB /* libjpeg */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				E360EA7E2D9AC60A00DC96EB /* Exceptions for "libjpeg" folder in "VNCViewer" target */,
+			);
+			path = libjpeg;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -69,6 +90,8 @@
 		E360A1EC2D9AAB6000DC96EB /* Third-Party */ = {
 			isa = PBXGroup;
 			children = (
+				E360EA772D9AC5F400DC96EB /* libjpeg */,
+				E360D25B2D9AC0FD00DC96EB /* zlib */,
 				E360A2032D9AB50D00DC96EB /* libvnc */,
 				E360A1ED2D9AAB6F00DC96EB /* setup-dependencies.sh */,
 			);
@@ -92,6 +115,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				E360A1DC2D9AAA8600DC96EB /* VNCViewer */,
+				E360D25B2D9AC0FD00DC96EB /* zlib */,
 			);
 			name = VNCViewer;
 			packageProductDependencies = (
@@ -296,6 +320,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Third-Party/libvnc/lib",
+					"$(PROJECT_DIR)/Third-Party/zlib/lib",
+					"$(PROJECT_DIR)/Third-Party/libjpeg/lib",
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.giusepperocco.VNCViewer;
@@ -329,6 +355,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Third-Party/libvnc/lib",
+					"$(PROJECT_DIR)/Third-Party/zlib/lib",
+					"$(PROJECT_DIR)/Third-Party/libjpeg/lib",
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.giusepperocco.VNCViewer;

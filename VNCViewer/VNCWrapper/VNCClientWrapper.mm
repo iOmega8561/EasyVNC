@@ -7,8 +7,13 @@
 
 #import <Foundation/Foundation.h>
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+
 #import "VNCClientWrapper.h"
 #import "rfb/rfbclient.h"
+
+#pragma clang diagnostic pop
 
 @implementation VNCClientWrapper {
     rfbClient* _client;
@@ -32,24 +37,32 @@ static void framebuffer_update_callback(rfbClient* cl, int x, int y, int w, int 
 }
 
 - (BOOL)connectToHost:(NSString *)host port:(int)port {
-    
     if (_client) return NO;
 
-    _client = rfbGetClient(8, 3, 4); // 32-bit color
+    _client = rfbGetClient(8, 3, 4);
     _client->canHandleNewFBSize = TRUE;
     _client->MallocFrameBuffer = resize_callback;
     _client->GotFrameBufferUpdate = framebuffer_update_callback;
-    
     _client->clientData = (rfbClientData*)(__bridge void*) self;
 
     const char *host_c = [host UTF8String];
-    if (!rfbInitClient(_client, nullptr, nullptr)) return NO;
-    
     _client->serverHost = strdup(host_c);
     _client->serverPort = port;
-    
-    if (!rfbInitClient(_client, nullptr, nullptr)) return NO;
 
+    NSLog(@"Connecting to %s:%d", _client->serverHost, _client->serverPort);
+    
+    if (!rfbInitClient(_client, nullptr, nullptr)) {
+        if (_client) {
+            if (_client->frameBuffer) {
+                free(_client->frameBuffer);
+            }
+            free(_client->serverHost);
+            free(_client);
+        }
+        _client = nullptr;
+        return NO;
+    }
+    
     return YES;
 }
 
@@ -62,9 +75,13 @@ static void framebuffer_update_callback(rfbClient* cl, int x, int y, int w, int 
 }
 
 - (void)disconnect {
+        
     if (_client) {
+        _client->frameBuffer = NULL;
+        _client->clientData = NULL;
+        _client->GotFrameBufferUpdate = NULL;
+
         rfbClientCleanup(_client);
-        free(_client->serverHost);
         _client = nullptr;
     }
 }

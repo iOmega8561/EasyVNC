@@ -40,7 +40,7 @@ final class VNCClient: NSObject, ObservableObject {
 extension VNCClient: VNCClientDelegate {
     
     func didUpdateFramebuffer(_ data: UnsafePointer<UInt8>, width: Int32, height: Int32, stride: Int32) {
-        
+                
         guard let provider = CGDataProvider(
             dataInfo: nil,
             data: data,

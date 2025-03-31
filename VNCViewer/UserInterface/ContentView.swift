@@ -21,7 +21,7 @@ struct ContentView: View {
             HStack {
                 Button("Connect") {
                     if !isConnected {
-                        client.connect(host: "192.168.0.100", port: 5900)
+                        client.connect(host: "127.0.0.1", port: 5901)
                         isConnected = true
                     }
                 }
