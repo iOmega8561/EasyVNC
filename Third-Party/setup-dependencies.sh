@@ -27,8 +27,8 @@ if [ ! -d "libvnc" ]; then
          -DWITH_GNUTLS=OFF \
          -DWITH_OPENSSL=OFF \
          -DWITH_LIBJPEG=OFF \
-         -DWITH_ZLIB=ON \
-         -DWITH_SDL=OFF
+         -DWITH_SASL=OFF \
+         -DWITH_ZLIB=OFF
     
     make -j$(sysctl -n hw.logicalcpu)
     mkdir "$SCRIPTPATH/libvnc" && make install && cd ../..

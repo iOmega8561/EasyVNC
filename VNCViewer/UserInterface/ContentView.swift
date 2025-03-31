@@ -8,17 +8,29 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @StateObject private var client = VNCClient()
+    
+    @State private var isConnected = false
+
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
-    }
-}
+            VNCDisplayRepresentable(client: client)
+                .frame(minWidth: 640, minHeight: 480)
 
-#Preview {
-    ContentView()
+            HStack {
+                Button("Connect") {
+                    if !isConnected {
+                        client.connect(host: "192.168.0.100", port: 5900)
+                        isConnected = true
+                    }
+                }
+                Button("Disconnect") {
+                    client.disconnect()
+                    isConnected = false
+                }
+            }
+            .padding()
+        }
+    }
 }

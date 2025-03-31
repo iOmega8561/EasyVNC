@@ -10,4 +10,6 @@
 
 #import <Foundation/Foundation.h>
 
+#import "VNCClientWrapper.h"
+
 #endif /* Bridging_Header_h */
