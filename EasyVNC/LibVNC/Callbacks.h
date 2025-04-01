@@ -15,6 +15,8 @@
 
 #pragma clang diagnostic pop
 
+extern int kVNCClientTag;
+
 rfbBool resize_callback(struct _rfbClient *cl);
 
 void framebuffer_update_callback(struct _rfbClient *cl,

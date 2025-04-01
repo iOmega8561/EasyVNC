@@ -16,6 +16,8 @@
 
 #pragma clang diagnostic pop
 
+int kVNCClientTag;
+
 // Callback used when the server requests a new frame buffer allocation.
 rfbBool resize_callback(rfbClient *cl) {
     
@@ -36,16 +38,16 @@ rfbBool resize_callback(rfbClient *cl) {
 // Callback triggered when there is a framebuffer update.
 void framebuffer_update_callback(rfbClient *cl, int x, int y, int w, int h) {
     
-    ClientWrapper *self = (__bridge ClientWrapper *)(cl->clientData);
+    ClientWrapper *wrapper = (__bridge ClientWrapper *) rfbClientGetClientData(cl, &kVNCClientTag);
     
-    if (self.delegate && cl->frameBuffer) {
+    if (wrapper.delegate && cl->frameBuffer) {
         
         // Dispatch any UI update to the main thread.
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate didUpdateFramebuffer:(const uint8_t *)cl->frameBuffer
-                                            width:cl->width
-                                           height:cl->height
-                                           stride:(cl->width * (cl->format.bitsPerPixel / 8))];
+            [wrapper.delegate didUpdateFramebuffer:(const uint8_t *)cl->frameBuffer
+                                             width:cl->width
+                                            height:cl->height
+                                            stride:(cl->width * (cl->format.bitsPerPixel / 8))];
         });
     }
 }
