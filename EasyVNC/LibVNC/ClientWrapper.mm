@@ -15,6 +15,7 @@
 #pragma clang diagnostic ignored "-Weverything"
 
 #import "rfb/rfbclient.h"
+#import "rfb/rfb.h"
 
 #pragma clang diagnostic pop
 
@@ -62,7 +63,7 @@
         }
         
         // Set the clientData to self so callbacks can call delegate methods.
-        client->clientData = (rfbClientData *)(__bridge void *)(self);
+        rfbClientSetClientData(client, &kVNCClientTag, (__bridge void *)self);
         self.client = client;
         self.runEventLoop = YES;
         
@@ -87,7 +88,7 @@
                 }
             }
         }
-        
+                
         // When the loop exits, perform cleanup on the same thread.
         if (self.client) {
             rfbClientCleanup(self.client);
