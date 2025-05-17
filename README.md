@@ -4,6 +4,8 @@
 
 The goal of this project is to provide a lightweight, native macOS VNC viewer with essential functionality and a clean SwiftUI interface.
 
+![Demo Image](./Demo.png)
+
 ## 🚀 Features
 
 - 🔌 Connect to a VNC server via IP and port
