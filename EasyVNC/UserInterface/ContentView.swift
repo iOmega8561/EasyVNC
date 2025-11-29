@@ -12,49 +12,29 @@ struct ContentView: View {
     let connection: Connection?
     
     @StateObject private var client = ViewModel()
-    
-    @State private var isConnected = false
-    
+        
     @Environment(\.dismiss) private var dismiss
-    
-    private var screenWidth: CGFloat? {
-        guard let image = client.image else {
-            return nil
-        }
-        
-        return .init(image.width)
-    }
-    
-    private var screenHeight: CGFloat? {
-        guard let image = client.image else {
-            return nil
-        }
-        
-        return .init(image.height)
-    }
-    
-    private var aspectRatio: CGFloat {
-        guard let screenWidth,
-              let screenHeight else { return 1 }
-        
-        return screenWidth / screenHeight
-    }
     
     var body: some View {
         
         ClientRepresentable(client: client)
-            .frame(minWidth: screenWidth, minHeight: screenHeight)
-            .aspectRatio(aspectRatio, contentMode: .fit)
+        
+            .frame(minWidth: client.image.cgWidth,
+                   minHeight: client.image.cgHeight)
+        
+            .aspectRatio(client.image.aspectRatio,
+                         contentMode: .fit)
+        
             .task { @MainActor in
                 
-                guard let connection,
-                      await client.connect(host: connection.host,
-                                           port: connection.port) else {
-                    dismiss(); return
-                }
+                guard let connection else { dismiss(); return }
                 
-                isConnected = true
+                client.connect(host: connection.host,
+                               port: connection.port)
             }
-            .onDisappear { if isConnected { client.disconnect() } }
+        
+            .onChange(of: client.isConnected) { !$0 ? dismiss() : () }
+        
+            .onDisappear { client.isConnected ? client.disconnect() : () }
     }
 }

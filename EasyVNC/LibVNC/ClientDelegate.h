@@ -17,6 +17,8 @@
                       height:(int)height
                       stride:(int)stride;
 
+- (void)handleConnectionStatusChange:(bool)isConnected;
+
 @end
 
 #endif /* ClientDelegate_h */

@@ -12,7 +12,9 @@ final class ViewModel: NSObject, ObservableObject {
     
     private let wrapper = ClientWrapper()
 
-    @Published var image: CGImage?
+    @Published var image: CGImage = .defaultImage
+    
+    @Published var isConnected: Bool = false
 
     override init() {
         super.init()
@@ -20,8 +22,8 @@ final class ViewModel: NSObject, ObservableObject {
         wrapper.delegate = self
     }
 
-    func connect(host: String, port: Int) async -> Bool {
-        await wrapper.connect(toHost: host, port: Int32(port))
+    func connect(host: String, port: Int) {
+        wrapper.connect(toHost: host, port: Int32(port))
     }
 
     func sendMouse(x: Int, y: Int, buttons: Int) {
@@ -39,8 +41,17 @@ final class ViewModel: NSObject, ObservableObject {
 
 extension ViewModel: ClientDelegate {
     
-    func didUpdateFramebuffer(_ data: UnsafePointer<UInt8>, width: Int32, height: Int32, stride: Int32) {
-                        
+    func handleConnectionStatusChange(_ isConnected: Bool) {
+        DispatchQueue.main.async {
+            self.isConnected = isConnected
+        }
+    }
+    
+    func didUpdateFramebuffer(_ data: UnsafePointer<UInt8>,
+                              width: Int32,
+                              height: Int32,
+                              stride: Int32
+    ) {
         guard let provider = CGDataProvider(
             dataInfo: nil,
             data: data,
@@ -53,7 +64,7 @@ extension ViewModel: ClientDelegate {
             CGBitmapInfo(rawValue: CGImageAlphaInfo.noneSkipLast.rawValue)
         ]
         
-        let cgImage = CGImage(
+        if let cgImage = CGImage(
             width: Int(width),
             height: Int(height),
             bitsPerComponent: 8,
@@ -65,8 +76,8 @@ extension ViewModel: ClientDelegate {
             decode: nil,
             shouldInterpolate: true,
             intent: .defaultIntent
-        )
-        
-        DispatchQueue.main.async { self.image = cgImage }
+        ) {
+            DispatchQueue.main.async { self.image = cgImage }
+        }
     }
 }

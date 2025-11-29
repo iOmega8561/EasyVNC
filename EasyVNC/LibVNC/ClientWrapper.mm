@@ -23,27 +23,14 @@
 
 #pragma mark - Connection Methods
 
-- (void)connectToHost:(NSString *)host port:(int)port completion:(void (^)(BOOL success))completion {
+- (void)connectToHost:(NSString *)host port:(int)port {
     dispatch_async(self.clientQueue, ^{
-        if (self.client) {
-            if (completion) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    completion(NO);
-                });
-            }
-            return;
-        }
+        
+        if (self.client) { return; }
         
         // Create a new rfbClient instance.
         rfbClient *client = rfbGetClient(8, 3, 4);
-        if (!client) {
-            if (completion) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    completion(NO);
-                });
-            }
-            return;
-        }
+        if (!client) { return; }
         
         // Set up callbacks.
         client->MallocFrameBuffer = resize_callback;
@@ -55,12 +42,7 @@
         client->serverPort = port;
         
         // Attempt to initialize the client.
-        if (!rfbInitClient(client, NULL, NULL)) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                completion(NO);
-            });
-            return;
-        }
+        if (!rfbInitClient(client, NULL, NULL)) { return; }
         
         // Set the clientData to self so callbacks can call delegate methods.
         rfbClientSetClientData(client, &kVNCClientTag, (__bridge void *)self);
@@ -70,16 +52,16 @@
         // Start the event loop.
         [self startEventLoop];
         
-        if (completion) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                completion(YES);
-            });
+        // Update connection state for UI
+        if (self.delegate) {
+            [self.delegate handleConnectionStatusChange:(YES)];
         }
     });
 }
 
 - (void)startEventLoop {
     dispatch_async(self.clientQueue, ^{
+        
         // Keep running while the flag is set and the client is valid.
         while (self.runEventLoop && self.client && self.client->sock != -1) {
             if (WaitForMessage(self.client, 100000) > 0) {
@@ -94,14 +76,22 @@
             rfbClientCleanup(self.client);
             self.client = NULL;
         }
+        
+        // Update connection state for UI
+        if (self.delegate) {
+            [self.delegate handleConnectionStatusChange:(NO)];
+        }
     });
 }
 
 - (void)disconnect {
     dispatch_async(self.clientQueue, ^{
+        
         // Signal the event loop to stop.
         self.runEventLoop = NO;
+        
         if (self.client && self.client->sock != -1) {
+        
             // Closing the socket forces WaitForMessage() to fail.
             close(self.client->sock);
             self.client->sock = -1;

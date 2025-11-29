@@ -140,8 +140,8 @@ final class ClientView: NSView {
         guard let client = client else { return }
         let location = convert(event.locationInWindow, from: nil)
         
-        let fbWidth = CGFloat(client.image?.width ?? Int(bounds.width))
-        let fbHeight = CGFloat(client.image?.height ?? Int(bounds.height))
+        let fbWidth = CGFloat(client.image.width)
+        let fbHeight = CGFloat(client.image.height)
         
         let scaleX = fbWidth / bounds.width
         let scaleY = fbHeight / bounds.height
@@ -158,8 +158,8 @@ final class ClientView: NSView {
         // Framebuffer coords, like in sendMouseEvent(_:)
         let location = convert(event.locationInWindow, from: nil)
 
-        let fbWidth = CGFloat(client.image?.width ?? Int(bounds.width))
-        let fbHeight = CGFloat(client.image?.height ?? Int(bounds.height))
+        let fbWidth = CGFloat(client.image.width)
+        let fbHeight = CGFloat(client.image.height)
 
         let scaleX = fbWidth / bounds.width
         let scaleY = fbHeight / bounds.height
@@ -184,7 +184,6 @@ final class ClientView: NSView {
         }
     }
 
-    
     // MARK: - Helpers
     
     /// Determine if a certain modifier is pressed based on keyCode + flags.

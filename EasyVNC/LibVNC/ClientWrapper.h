@@ -28,8 +28,7 @@
 @property (nonatomic, assign) rfbClient *client;
 
 - (void)connectToHost:(NSString *)host
-                 port:(int)port
-           completion:(void (^)(BOOL success))completion;
+                 port:(int)port;
 
 - (void)sendPointerEventWithX:(int)x
                             y:(int)y
