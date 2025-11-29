@@ -152,6 +152,39 @@ final class ClientView: NSView {
         client.sendMouse(x: x, y: y, buttons: buttonMask)
     }
     
+    override func scrollWheel(with event: NSEvent) {
+        guard let client = client else { return }
+
+        // Framebuffer coords, like in sendMouseEvent(_:)
+        let location = convert(event.locationInWindow, from: nil)
+
+        let fbWidth = CGFloat(client.image?.width ?? Int(bounds.width))
+        let fbHeight = CGFloat(client.image?.height ?? Int(bounds.height))
+
+        let scaleX = fbWidth / bounds.width
+        let scaleY = fbHeight / bounds.height
+
+        let x = Int(location.x * scaleX)
+        let y = Int((bounds.height - location.y) * scaleY) // Flip Y
+
+        // VNC: bit 3 = wheel up (8), bit 4 = wheel down (16)
+        let buttonScrollUp = 1 << 3    // 8
+        let buttonScrollDown = 1 << 4  // 16
+
+        // Using scrollingDeltaY to always have same-unit values
+        let dy = event.scrollingDeltaY
+
+        // Base version: one "tick" per event, direction only
+        if dy > 0 {
+            client.sendMouse(x: x, y: y, buttons: buttonScrollUp)
+            client.sendMouse(x: x, y: y, buttons: 0)
+        } else if dy < 0 {
+            client.sendMouse(x: x, y: y, buttons: buttonScrollDown)
+            client.sendMouse(x: x, y: y, buttons: 0)
+        }
+    }
+
+    
     // MARK: - Helpers
     
     /// Determine if a certain modifier is pressed based on keyCode + flags.
