@@ -76,15 +76,19 @@ final class ClientView: NSView {
     // MARK: - Keyboard Handling
     
     override func flagsChanged(with event: NSEvent) {
-        // If this is a recognized modifier key, handle it
-        if let (pressedSym, _) = Keys.macModifierMap[event.keyCode] {
-            // Compare old/new flags
-            let wasPressed = isModifierPressed(event.keyCode, flags: lastModifierFlags)
-            let isPressed  = isModifierPressed(event.keyCode, flags: event.modifierFlags)
-            if wasPressed != isPressed {
-                client?.sendKey(key: pressedSym, down: isPressed)
-            }
+        guard let map = Keys.macModifierMap[event.keyCode] else {
+            lastModifierFlags = event.modifierFlags
+            return
         }
+
+        let wasPressed = isModifierPressed(event.keyCode, flags: lastModifierFlags)
+        let isPressed  = isModifierPressed(event.keyCode, flags: event.modifierFlags)
+
+        if wasPressed != isPressed {
+            let sym = isPressed ? map.pressed : map.released
+            client?.sendKey(key: Int(sym), down: isPressed)
+        }
+
         lastModifierFlags = event.modifierFlags
     }
     
@@ -102,20 +106,12 @@ final class ClientView: NSView {
     }
     
     private func handleKeyEvent(_ event: NSEvent, down: Bool) {
-        // If it's a recognized modifier, do nothing here. flagsChanged handles it.
+        // “pure” modifiers are managed by flagsChanged
         if Keys.macModifierKeycodes.contains(event.keyCode) { return }
-        
-        // If it's a known special key
-        if let sym = Keys.macKeycodeToKeysym[event.keyCode] {
-            client?.sendKey(key: sym, down: down)
-            return
-        }
-        
-        // Else try using the characters
-        if let chars = event.charactersIgnoringModifiers, let scalar = chars.unicodeScalars.first {
-            let val = Int(scalar.value)
-            client?.sendKey(key: val, down: down)
-        }
+
+        guard let sym = Keys.keysym(for: event) else { return }
+
+        client?.sendKey(key: Int(sym), down: down)
     }
     
     // MARK: - Mouse Handling
