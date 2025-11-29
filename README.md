@@ -10,8 +10,8 @@ The goal of this project is to provide a lightweight, native macOS VNC viewer wi
 
 - 🔌 Connect to a VNC server via IP and port
 - 🖥️ Render the remote framebuffer in a SwiftUI view
-- 🖱️ Send basic mouse events (click/tap)
-- ⌨️ Send basic keyboard input
+- 🖱️ Send basic mouse events (click/ta and scroll)
+- ⌨️ Send basic keyboard inpu
 - 🔓 Authentication is **not supported** (for now)
 
 ## 📦 Tech Stack
@@ -23,8 +23,8 @@ The goal of this project is to provide a lightweight, native macOS VNC viewer wi
 
 ## 📋 Requirements
 
-- macOS 12.0+
-- Xcode 14+
+- macOS 13.0+
+- Xcode 14.1+
 - Dependencies:
   - `libvncclient` (compiled statically)
   - `zlib`
