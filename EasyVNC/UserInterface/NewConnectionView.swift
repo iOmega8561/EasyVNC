@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ConnectionView: View {
+struct NewConnectionView: View {
     
     @Environment(\.openWindow) private var openWindow
     @Environment(\.dismiss) private var dismiss

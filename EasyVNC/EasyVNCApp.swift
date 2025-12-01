@@ -15,7 +15,7 @@ struct EasyVNCApp: App {
     var body: some Scene {
         
         Window("New Connection", id: "main") {
-            ConnectionView()
+            NewConnectionView()
                 .frame(width: 300, height: 350)
         }
         .commands {
@@ -31,7 +31,7 @@ struct EasyVNCApp: App {
                     id: "connection",
                     for: Connection.self
         ) {
-            ContentView(connection: $0.wrappedValue)
+            ClientContainer(connection: $0.wrappedValue)
         }
         .commandsRemoved()
         .windowResizability(.contentSize)

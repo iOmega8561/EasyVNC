@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct ClientContainer: View {
     
     let connection: Connection?
     
