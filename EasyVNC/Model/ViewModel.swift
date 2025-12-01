@@ -10,32 +10,35 @@ import SwiftUI
 
 final class ViewModel: NSObject, ObservableObject {
     
-    private let wrapper = ClientWrapper()
+    private let client: ClientWrapper = .init()
 
-    @Published var image: CGImage = .defaultImage
+    @Published
+    var image: CGImage = .defaultImage
     
-    @Published var isConnected: Bool = false
-
-    override init() {
-        super.init()
-        
-        wrapper.delegate = self
-    }
+    @Published
+    var isConnected: Bool = false
+    
+    func disconnect() { client.disconnect() }
 
     func connect(host: String, port: Int) {
-        wrapper.connect(toHost: host, port: Int32(port))
-    }
-
-    func sendMouse(x: Int, y: Int, buttons: Int) {
-        wrapper.sendPointerEventWith(x: Int32(x), y: Int32(y), buttonMask: Int32(buttons))
+        
+        client.delegate = self
+        
+        client.connect(toHost: host,
+                       port: Int32(port))
     }
 
     func sendKey(key: Int, down: Bool) {
-        wrapper.sendKeyEvent(Int32(key), down: down)
+        
+        client.sendKeyEvent(Int32(key),
+                            down: down)
     }
-
-    func disconnect() {
-        wrapper.disconnect()
+    
+    func sendMouse(x: Int, y: Int, buttons: Int) {
+        
+        client.sendPointerEventWith(x: Int32(x),
+                                    y: Int32(y),
+                                    buttonMask: Int32(buttons))
     }
 }
 
@@ -46,7 +49,7 @@ extension ViewModel: ClientDelegate {
             self.isConnected = isConnected
         }
     }
-    
+
     func didUpdateFramebuffer(_ data: UnsafePointer<UInt8>,
                               width: Int32,
                               height: Int32,

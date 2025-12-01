@@ -10,6 +10,7 @@ import SwiftUI
 struct ConnectionView: View {
     
     @Environment(\.openWindow) private var openWindow
+    @Environment(\.dismiss) private var dismiss
     
     @State private var connection: Connection = .init()
     
@@ -35,10 +36,10 @@ struct ConnectionView: View {
             
             Button("Connect") {
                 openWindow(id: "connection", value: connection)
-                
                 connection = .init()
+                dismiss()
             }
-            .disabled(connection.isValid)
+            .disabled(!connection.isValid)
         }
         .padding()
     }

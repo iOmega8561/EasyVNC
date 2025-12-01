@@ -42,5 +42,8 @@ struct ContentView: View {
             .onChange(of: client.isConnected) { !$0 ? dismiss() : () }
             // Avoid leaving connection in a broken state when disappearing
             .onDisappear { client.isConnected ? client.disconnect() : () }
+        
+            // Distinguish connection windows using details as IP and PORT
+            .navigationSubtitle(connection.title)
     }
 }

@@ -17,7 +17,7 @@
                       height:(int)height
                       stride:(int)stride;
 
-- (void)handleConnectionStatusChange:(bool)isConnected;
+- (void)handleConnectionStatusChange:(BOOL)isConnected;
 
 @end
 

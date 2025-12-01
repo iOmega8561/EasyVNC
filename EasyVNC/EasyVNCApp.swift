@@ -10,17 +10,31 @@ import SwiftUI
 @main
 struct EasyVNCApp: App {
     
+    @Environment(\.openWindow) private var openWindow
+    
     var body: some Scene {
         
-        WindowGroup(id: "main") {
+        Window("New Connection", id: "main") {
             ConnectionView()
                 .frame(width: 300, height: 350)
         }
-        .windowResizability(.contentSize)
-        
-        WindowGroup(id: "connection", for: Connection.self) { $conn in
-            ContentView(connection: conn)
+        .commands {
+            CommandGroup(after: .windowArrangement) {
+                Button("New Connection", systemImage: "plus") {
+                    openWindow(id: "main")
+                }
+            }
         }
         .windowResizability(.contentSize)
+        
+        WindowGroup("EasyVNC Connection",
+                    id: "connection",
+                    for: Connection.self
+        ) {
+            ContentView(connection: $0.wrappedValue)
+        }
+        .commandsRemoved()
+        .windowResizability(.contentSize)
+        .windowToolbarStyle(.unifiedCompact)
     }
 }
