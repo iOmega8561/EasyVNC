@@ -44,6 +44,6 @@ struct NewConnectionView: View {
             }
             .disabled(!connection.isValid)
         }
-        .padding()
+        .padding()        
     }
 }

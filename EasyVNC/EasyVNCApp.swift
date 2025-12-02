@@ -23,6 +23,7 @@ struct EasyVNCApp: App {
                 Button("title-new-connection", systemImage: "plus") {
                     openWindow(id: "main")
                 }
+                .keyboardShortcut("N", modifiers: .command)
             }
         }
         .windowResizability(.contentSize)
