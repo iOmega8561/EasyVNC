@@ -18,24 +18,27 @@ struct NewConnectionView: View {
         
         VStack(spacing: 48) {
             
-            Text("EasyVNC")
+            Text(verbatim: "EasyVNC")
                 .font(.largeTitle)
             
             VStack(alignment: .leading) {
-                Text("Connection Host")
+                Text("title-connection-host")
                 
-                TextField("Host", text: $connection.host)
+                TextField("placeholder-connection-host",
+                          text: $connection.host)
             }
             
             VStack(alignment: .leading) {
-                Text("TCP Port")
+                Text("title-connection-port")
                 
-                TextField("Port", value: $connection.port,
-                                  formatter: NumberFormatter())
+                TextField("placeholder-connection-port",
+                          value: $connection.port,
+                          formatter: NumberFormatter())
             }
             
-            Button("Connect") {
-                openWindow(id: "connection", value: connection)
+            Button("action-connect") {
+                openWindow(id: "connection",
+                           value: connection)
                 connection = .init()
                 dismiss()
             }

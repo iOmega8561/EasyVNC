@@ -14,20 +14,20 @@ struct EasyVNCApp: App {
     
     var body: some Scene {
         
-        Window("New Connection", id: "main") {
+        Window("window-main-title", id: "main") {
             NewConnectionView()
                 .frame(width: 300, height: 350)
         }
         .commands {
             CommandGroup(after: .windowArrangement) {
-                Button("New Connection", systemImage: "plus") {
+                Button("title-new-connection", systemImage: "plus") {
                     openWindow(id: "main")
                 }
             }
         }
         .windowResizability(.contentSize)
         
-        WindowGroup("EasyVNC Connection",
+        WindowGroup("window-connection-title",
                     id: "connection",
                     for: Connection.self
         ) {
