@@ -30,7 +30,13 @@ rfbBool resize_callback(rfbClient *cl) {
     
     // Allocate a new framebuffer.
     int bpp = cl->format.bitsPerPixel / 8;
-    cl->frameBuffer = (uint8_t *)malloc(cl->width * cl->height * bpp);
+    int size = cl->width * cl->height * bpp;
+    cl->frameBuffer = (uint8_t *)malloc(size);
+    
+    if (!cl->frameBuffer) { return FALSE; }
+
+    // Making sure we don't catch dirty memory
+    memset(cl->frameBuffer, 0, size);
     
     return TRUE;
 }

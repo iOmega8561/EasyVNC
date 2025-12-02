@@ -18,7 +18,7 @@ final class ViewModel: NSObject, ObservableObject {
     @Published
     var isConnected: Bool = false
     
-    func disconnect() { client.disconnect() }
+    func disconnect() { client.cleanupDisconnect() }
 
     func connect(host: String, port: Int) {
         
