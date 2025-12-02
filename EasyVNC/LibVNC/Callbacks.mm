@@ -42,12 +42,9 @@ void framebuffer_update_callback(rfbClient *cl, int x, int y, int w, int h) {
     
     if (wrapper.delegate && cl->frameBuffer) {
         
-        // Dispatch any UI update to the main thread.
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [wrapper.delegate didUpdateFramebuffer:(const uint8_t *)cl->frameBuffer
-                                             width:cl->width
-                                            height:cl->height
-                                            stride:(cl->width * (cl->format.bitsPerPixel / 8))];
-        });
+        [wrapper.delegate didUpdateFramebuffer:(const uint8_t *)cl->frameBuffer
+                                         width:cl->width
+                                        height:cl->height
+                                        stride:(cl->width * (cl->format.bitsPerPixel / 8))];
     }
 }

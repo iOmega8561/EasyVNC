@@ -32,12 +32,10 @@
         rfbClient *client = rfbGetClient(8, 3, 4);
         if (!client) { return; }
         
-        // Set up callbacks.
+        // Set up callbacks, along with host and port
         client->MallocFrameBuffer = resize_callback;
         client->GotFrameBufferUpdate = framebuffer_update_callback;
         client->canHandleNewFBSize = TRUE;
-        
-        // Set server host and port.
         client->serverHost = strdup([host UTF8String]);
         client->serverPort = port;
         
@@ -50,7 +48,7 @@
         self.runEventLoop = YES;
         
         // Start the event loop.
-        [self startEventLoop];
+        [self startEventLoopTimer];
         
         // Update connection state for UI
         if (self.delegate) {
@@ -59,54 +57,73 @@
     });
 }
 
-- (void)startEventLoop {
-    dispatch_async(self.clientQueue, ^{
+- (void)cleanupDisconnect {
+    if (self.eventTimer) {
+        dispatch_source_cancel(self.eventTimer);
+        self.eventTimer = nil;
+    }
+
+    if (self.client) {
+        // Making sure the client isn't referenced
+        // anymore by this wrapper. Could be a mess otherwise.
+        rfbClient *client = self.client;
+        self.client = NULL;
         
-        // Keep running while the flag is set and the client is valid.
-        while (self.runEventLoop && self.client && self.client->sock != -1) {
-            if (WaitForMessage(self.client, 100000) > 0) {
-                if (!HandleRFBServerMessage(self.client)) {
-                    break;
-                }
-            }
-        }
-                
-        // When the loop exits, perform cleanup on the same thread.
-        if (self.client) {
-            rfbClientCleanup(self.client);
-            self.client = NULL;
-        }
-        
-        // Update connection state for UI
-        if (self.delegate) {
-            [self.delegate handleConnectionStatusChange:(NO)];
-        }
-    });
+        // Only then, we clean it up
+        rfbClientCleanup(client);
+    }
+
+    self.runEventLoop = NO;
+
+    if (self.delegate) {
+        // Let's make sure the UI gets updated
+        [self.delegate handleConnectionStatusChange:NO];
+    }
 }
 
-- (void)disconnect {
-    dispatch_async(self.clientQueue, ^{
-        
-        // Signal the event loop to stop.
-        self.runEventLoop = NO;
-        
-        if (self.client && self.client->sock != -1) {
-        
-            // Closing the socket forces WaitForMessage() to fail.
-            close(self.client->sock);
-            self.client->sock = -1;
-        }
+- (void)startEventLoopTimer {
+    self.eventTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER,
+                                             0,
+                                             0,
+                                             self.clientQueue);
+    // 1 millisecond is a good compromise.
+    // Can be made adjustable in the future.
+    dispatch_source_set_timer(self.eventTimer,
+                              DISPATCH_TIME_NOW,
+                              NSEC_PER_MSEC,
+                              NSEC_PER_MSEC);
+    // Instead of a blocking while loop, we let good old GCD
+    // do the heavy lifting. This handler is not blocking.
+    dispatch_source_set_event_handler(self.eventTimer, ^{
+        if (self.runEventLoop &&
+            self.client &&
+            self.client->sock != -1
+        ) {
+            if (WaitForMessage(self.client, 0) > 0 &&
+                !HandleRFBServerMessage(self.client)
+            ) {
+                self.runEventLoop = NO;
+            }
+        } else { [self cleanupDisconnect]; }
     });
+    // Everything's ready, let's start the timer
+    dispatch_resume(self.eventTimer);
 }
 
 #pragma mark - Input Events
 
 - (void)sendPointerEventWithX:(int)x y:(int)y buttonMask:(int)mask {
-    if (self.client) SendPointerEvent(self.client, x, y, mask);
+    dispatch_async(self.clientQueue, ^{
+        if (self.client)
+            SendPointerEvent(self.client, x, y, mask);
+    });
 }
 
 - (void)sendKeyEvent:(int)key down:(BOOL)down {
-    if (self.client) SendKeyEvent(self.client, key, down);
+    dispatch_async(self.clientQueue, ^{
+        if (self.client)
+            SendKeyEvent(self.client, key, down);
+    });
 }
 
 #pragma mark - Initialization
@@ -114,10 +131,12 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        // Create a serial queue dedicated to all client operations.
-        _clientQueue = dispatch_queue_create("com.EasyVNC.ClientQueue", DISPATCH_QUEUE_SERIAL);
-        _runEventLoop = NO;
         _client = NULL;
+        // libVNCClient recommends to always access the client on
+        // the same thread. we're gonna use a serial queue for safety.
+        _clientQueue = dispatch_queue_create("com.EasyVNC.ClientQueue",
+                                             DISPATCH_QUEUE_SERIAL);
+        _runEventLoop = NO;
     }
     return self;
 }

@@ -24,11 +24,16 @@
 
 @property (nonatomic, weak)   id<ClientDelegate> delegate;
 @property (nonatomic, strong) dispatch_queue_t clientQueue;
+@property (nonatomic, strong) dispatch_source_t eventTimer;
 @property (atomic, assign)    BOOL runEventLoop;
 @property (nonatomic, assign) rfbClient *client;
 
 - (void)connectToHost:(NSString *)host
                  port:(int)port;
+
+- (void)cleanupDisconnect;
+
+- (void)startEventLoopTimer;
 
 - (void)sendPointerEventWithX:(int)x
                             y:(int)y
@@ -36,8 +41,6 @@
 
 - (void)sendKeyEvent:(int)key
                 down:(BOOL)down;
-
-- (void)disconnect;
 
 @end
 
