@@ -1,4 +1,21 @@
 //
+//  Copyright (C) 2025  Giuseppe Rocco
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
+//  ----------------------------------------------------------------------
+//
 //  Keys.swift
 //  EasyVNC
 //
@@ -9,7 +26,7 @@ import AppKit
 
 enum Keys {
     
-    /// Mac virtual keyCode -> X11 keysym
+    // Mac virtual keyCode -> X11 keysym
     static let specialKeycodeToKeysym: [UInt16: UInt32] = [
         
         // Control keys
@@ -50,7 +67,7 @@ enum Keys {
         111: 0xffc9, // F12
     ]
 
-    /// Mac modifier keyCodes (flagsChanged)
+    // Mac modifier keyCodes (flagsChanged)
     static let macModifierKeycodes: Set<UInt16> = [
         55, 54,  // command
         59, 62,  // control
@@ -58,7 +75,7 @@ enum Keys {
         56, 60   // shift
     ]
 
-    /// Mac modifier -> X11 keysym (pressed/released)
+    // Mac modifier -> X11 keysym (pressed/released)
     static let macModifierMap: [UInt16: (pressed: UInt32, released: UInt32)] = [
         55: (0xffeb, 0xffeb), // left command -> Super_L
         54: (0xffec, 0xffec), // right command -> Super_R
@@ -70,7 +87,7 @@ enum Keys {
         60: (0xffe2, 0xffe2)  // right shift -> Shift_R
     ]
 
-    /// NSEvent keyDown/keyUp to keysym X11
+    // NSEvent keyDown/keyUp to keysym X11
     static func keysym(for event: NSEvent) -> UInt32? {
         
         // 1. If it's special key mapped by keyCode, use that directly
