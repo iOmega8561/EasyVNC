@@ -36,7 +36,7 @@ struct NewConnectionView: View {
         VStack(spacing: 48) {
             
             Text(verbatim: "EasyVNC")
-                .font(.largeTitle)
+                .font(.custom("ArialNarrow-BoldItalic", size: 42))
             
             VStack(alignment: .leading) {
                 Text("title-connection-host")
