@@ -57,7 +57,7 @@ final class ClientView: NSView {
         super.viewDidMoveToWindow()
         
         // Make this view first responder
-        self.window?.makeFirstResponder(self)
+        unsafe self.window?.makeFirstResponder(self)
         
         // Install the local event monitor
         keyMonitor = NSEvent.addLocalMonitorForEvents(matching: [.keyDown, .keyUp, .flagsChanged]) { [weak self] event in

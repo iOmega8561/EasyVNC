@@ -70,8 +70,8 @@ struct ClientLogView: View {
             guard !data.isEmpty,
                   let text = String(data: data, encoding: .utf8),
                   !text.isEmpty else { return }
-
-            logLines.append(text)
+            
+            DispatchQueue.main.async { logLines.append(text) }
         }
     }
 }

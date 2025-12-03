@@ -25,6 +25,7 @@
 import Foundation
 import SwiftUI
 
+@MainActor
 final class ViewModel: NSObject, ObservableObject {
     
     private let client: ClientWrapper = .init()
@@ -59,7 +60,7 @@ final class ViewModel: NSObject, ObservableObject {
     }
 }
 
-extension ViewModel: ClientDelegate {
+nonisolated extension ViewModel: ClientDelegate {
     
     func handleConnectionStatusChange(_ isConnected: Bool) {
         DispatchQueue.main.async {
@@ -72,7 +73,7 @@ extension ViewModel: ClientDelegate {
                               height: Int32,
                               stride: Int32
     ) {
-        guard let provider = CGDataProvider(
+        guard let provider = unsafe CGDataProvider(
             dataInfo: nil,
             data: data,
             size: Int(stride * height),
