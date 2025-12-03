@@ -24,7 +24,10 @@
 
 #import "ClientWrapper.h"
 #import "ClientDelegate.h"
+#import "ClientLogger.h"
 #import "Callbacks.h"
+
+#import <Foundation/Foundation.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"
@@ -70,4 +73,28 @@ void framebuffer_update_callback(rfbClient *cl, int x, int y, int w, int h) {
                                         height:cl->height
                                         stride:(cl->width * (cl->format.bitsPerPixel / 8))];
     }
+}
+
+// Callback used by libVNCClient instead of default logging utility
+void client_log_callback(const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+
+    char buffer[2048];
+    // vsnprintf can return len > sizeof(buffer)
+    int len = vsnprintf(buffer, sizeof(buffer), format, args);
+    va_end(args);
+
+    if (len <= 0) return;
+
+    // Forcing termination character if data size
+    // happens to exceed buffer size.
+    if (len >= (int)sizeof(buffer)) {
+        len = (int)sizeof(buffer) - 1;
+        buffer[len] = '\0';
+    }
+    
+    // Converting to NSData enhances flexibility in thi environment
+    NSData *data = [NSData dataWithBytes:buffer length:len];
+    [[ClientLogger shared] writeLogData:data];
 }

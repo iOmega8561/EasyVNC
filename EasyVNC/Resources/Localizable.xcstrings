@@ -18,6 +18,23 @@
         }
       }
     },
+    "action-log-toggle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show VNC logs"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra i log VNC"
+          }
+        }
+      }
+    },
     "placeholder-connection-host" : {
       "extractionState" : "manual",
       "localizations" : {

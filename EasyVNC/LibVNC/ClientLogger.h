@@ -16,19 +16,32 @@
 //
 //  ----------------------------------------------------------------------
 //
-//  Bridging-Header.h
+//  ClientLogger.h
 //  EasyVNC
 //
-//  Created by Giuseppe Rocco on 31/03/25.
+//  Created by Giuseppe Rocco on 03/12/25.
 //
 
-#ifndef Bridging_Header_h
-#define Bridging_Header_h
+#ifndef ClientLogger_h
+#define ClientLogger_h
 
 #import <Foundation/Foundation.h>
 
-#import "ClientWrapper.h"
-#import "ClientDelegate.h"
-#import "ClientLogger.h"
+@interface ClientLogger : NSObject
 
-#endif /* Bridging_Header_h */
+// Singleton
+// From what i understand, libVNCClient only does global logging.
+// It doesn't support piping each client instance individually.
++ (instancetype)shared;
+
+// Any vnc log will be redirected to this NSPipe.
+@property (nonatomic, strong, readonly) NSPipe *pipe;
+// And we also make sure to execute on a serial queue
+@property (nonatomic, strong)           dispatch_queue_t writeQueue;
+
+// This will be used by the appropriate callback
+- (void)writeLogData:(NSData *)data;
+
+@end
+
+#endif /* ClientLogger_h */
