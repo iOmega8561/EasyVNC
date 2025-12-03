@@ -34,15 +34,26 @@ final class ClientView: NSView {
     
     var image: CGImage? {
         didSet {
-            DispatchQueue.main.async {
-                self.needsDisplay = true
-            }
+            DispatchQueue.main.async { self.needsDisplay = true }
         }
     }
     
     var client: ViewModel?
     
+    // ------------------------------------------
     // MARK: - Private Event Interception Helpers
+    // ------------------------------------------
+    
+    // Determine if a certain modifier is pressed based on keyCode + flags.
+    private func isModifierPressed(_ keyCode: UInt16, flags: NSEvent.ModifierFlags) -> Bool {
+        switch keyCode {
+        case 55, 54: flags.contains(.command)
+        case 59, 62: flags.contains(.control)
+        case 58, 61: flags.contains(.option)
+        case 56, 60: flags.contains(.shift)
+        default:     false
+        }
+    }
     
     // Called by the local event monitor for keyDown, keyUp, and flagsChanged.
     private func handleLocalEvent(_ event: NSEvent) {
@@ -63,18 +74,6 @@ final class ClientView: NSView {
         client?.sendKey(key: Int(sym), down: down)
     }
     
-    // Determine if a certain modifier is pressed based on keyCode + flags.
-    private func isModifierPressed(_ keyCode: UInt16, flags: NSEvent.ModifierFlags) -> Bool {
-        switch keyCode {
-        case 55, 54: return flags.contains(.command)
-        case 59, 62: return flags.contains(.control)
-        case 58, 61: return flags.contains(.option)
-        case 56, 60: return flags.contains(.shift)
-        default:
-            return false
-        }
-    }
-    
     private func sendMouseEvent(_ event: NSEvent, buttonMask: Int) {
         guard let client = client else { return }
         let location = convert(event.locationInWindow, from: nil)
@@ -91,14 +90,17 @@ final class ClientView: NSView {
         client.sendMouse(x: x, y: y, buttons: buttonMask)
     }
     
+    // --------------------------------
     // MARK: - View Lifecycle Overrides
+    // --------------------------------
     
     override var acceptsFirstResponder: Bool { true }
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        guard let image = image, let context = NSGraphicsContext.current?.cgContext else { return }
+        guard let image = image,
+              let context = NSGraphicsContext.current?.cgContext else { return }
         
         let rect = bounds
         context.interpolationQuality = .none
@@ -112,13 +114,18 @@ final class ClientView: NSView {
         unsafe self.window?.makeFirstResponder(self)
         
         // Install the local event monitor
-        keyMonitor = NSEvent.addLocalMonitorForEvents(matching: [.keyDown, .keyUp, .flagsChanged]) { [weak self] event in
-            
-            // 1. The VNC window must exist
-            // 2. The event must be originated from the parent window
-            // 3. The window must also be keyWindow
+        keyMonitor = NSEvent.addLocalMonitorForEvents(
+            matching: [
+                .keyDown,
+                .keyUp,
+                .flagsChanged
+            ]
+        ) { [weak self] event in
+            // 1. The VNC Client window must exist
+            // 2. The event must be originated from THAT window
+            // 3. The window must also be THE keyWindow
             guard let window = unsafe self?.window,
-                  event.window === window,
+                  event.window === window, /* same instance? */
                   window.isKeyWindow else { return event /* let it go */ }
             
             // Intercept & handle the event ourselves.
@@ -137,7 +144,9 @@ final class ClientView: NSView {
         }
     }
     
+    // -----------------------------------
     // MARK: - Keyboard Handling Overrides
+    // -----------------------------------
     
     override func flagsChanged(with event: NSEvent) {
         guard let map = Keys.macModifierMap[event.keyCode] else {
@@ -169,7 +178,9 @@ final class ClientView: NSView {
         return false
     }
     
+    // --------------------------------
     // MARK: - Mouse Handling Overrides
+    // --------------------------------
     
     override func mouseDown(with event: NSEvent) {
         sendMouseEvent(event, buttonMask: 1)
@@ -213,7 +224,7 @@ final class ClientView: NSView {
         // Using scrollingDeltaY to always have same-unit values
         let dy = event.scrollingDeltaY
 
-        // Base version: one "tick" per event, direction only
+        // Keep it basic: one "tick" per event, direction only
         if dy > 0 {
             client.sendMouse(x: x, y: y, buttons: buttonScrollUp)
             client.sendMouse(x: x, y: y, buttons: 0)
