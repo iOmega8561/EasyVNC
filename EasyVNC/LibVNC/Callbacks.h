@@ -42,4 +42,6 @@ void framebuffer_update_callback(struct _rfbClient *cl,
                                                  int w,
                                                  int h);
 
+void client_log_callback(const char *format, ...);
+
 #endif /* Callbacks_h */
