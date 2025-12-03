@@ -29,6 +29,8 @@ struct ClientContainer: View {
     let connection: Connection?
     
     @StateObject private var client = ViewModel()
+    
+    @State private var showLogs: Bool = false
         
     @Environment(\.dismiss) private var dismiss
     
@@ -62,5 +64,18 @@ struct ClientContainer: View {
         
             // Distinguish connection windows using details as IP and PORT
             .navigationSubtitle(connection.title)
+        
+            .overlay(alignment: .topLeading) {
+                ClientLogView()
+                    .opacity((!client.isConnected || showLogs) ? 1 : 0)
+            }
+        
+            .toolbar {
+                ToolbarItem {
+                    Toggle("action-log-toggle", systemImage: "apple.terminal",
+                                                isOn: $showLogs)
+                        .disabled(!client.isConnected)
+                }
+            }
     }
 }
