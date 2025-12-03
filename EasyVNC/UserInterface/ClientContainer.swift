@@ -64,12 +64,13 @@ struct ClientContainer: View {
         
             // Distinguish connection windows using details as IP and PORT
             .navigationSubtitle(connection.title)
-        
+            // Not using a conditinal builded allows for ClientLogView to
+            // stay always in memory. It's necessary otherwise we lose logs.
             .overlay(alignment: .topLeading) {
                 ClientLogView()
                     .opacity((!client.isConnected || showLogs) ? 1 : 0)
             }
-        
+            // Super basic utiliy
             .toolbar {
                 ToolbarItem {
                     Toggle("action-log-toggle", systemImage: "apple.terminal",
