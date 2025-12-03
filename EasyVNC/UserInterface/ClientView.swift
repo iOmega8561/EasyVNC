@@ -26,7 +26,10 @@ import AppKit
 
 final class ClientView: NSView {
     
+    // The event monitor is super powerful for this use-case.
+    // We can easily intercept any key, even system combinations like CMD+Q.
     private var keyMonitor: Any?
+    
     private var lastModifierFlags: NSEvent.ModifierFlags = []
     
     var image: CGImage? {
@@ -39,7 +42,56 @@ final class ClientView: NSView {
     
     var client: ViewModel?
     
-    // MARK: - View Lifecycle
+    // MARK: - Private Event Interception Helpers
+    
+    // Called by the local event monitor for keyDown, keyUp, and flagsChanged.
+    private func handleLocalEvent(_ event: NSEvent) {
+        switch event.type {
+        case .flagsChanged: flagsChanged(with: event)
+        case .keyDown:      keyDown(with: event)
+        case .keyUp:        keyUp(with: event)
+        default:            break
+        }
+    }
+    
+    private func handleKeyEvent(_ event: NSEvent, down: Bool) {
+        // “pure” modifiers are managed by flagsChanged
+        if Keys.macModifierKeycodes.contains(event.keyCode) { return }
+
+        guard let sym = Keys.keysym(for: event) else { return }
+
+        client?.sendKey(key: Int(sym), down: down)
+    }
+    
+    // Determine if a certain modifier is pressed based on keyCode + flags.
+    private func isModifierPressed(_ keyCode: UInt16, flags: NSEvent.ModifierFlags) -> Bool {
+        switch keyCode {
+        case 55, 54: return flags.contains(.command)
+        case 59, 62: return flags.contains(.control)
+        case 58, 61: return flags.contains(.option)
+        case 56, 60: return flags.contains(.shift)
+        default:
+            return false
+        }
+    }
+    
+    private func sendMouseEvent(_ event: NSEvent, buttonMask: Int) {
+        guard let client = client else { return }
+        let location = convert(event.locationInWindow, from: nil)
+        
+        let fbWidth = CGFloat(client.image.width)
+        let fbHeight = CGFloat(client.image.height)
+        
+        let scaleX = fbWidth / bounds.width
+        let scaleY = fbHeight / bounds.height
+        
+        let x = Int(location.x * scaleX)
+        let y = Int((bounds.height - location.y) * scaleY) // Flip Y axis
+        
+        client.sendMouse(x: x, y: y, buttons: buttonMask)
+    }
+    
+    // MARK: - View Lifecycle Overrides
     
     override var acceptsFirstResponder: Bool { true }
     
@@ -85,19 +137,7 @@ final class ClientView: NSView {
         }
     }
     
-    // MARK: - Event Interception
-    
-    /// Called by the local event monitor for keyDown, keyUp, and flagsChanged.
-    private func handleLocalEvent(_ event: NSEvent) {
-        switch event.type {
-        case .flagsChanged: flagsChanged(with: event)
-        case .keyDown:      keyDown(with: event)
-        case .keyUp:        keyUp(with: event)
-        default:            break
-        }
-    }
-    
-    // MARK: - Keyboard Handling
+    // MARK: - Keyboard Handling Overrides
     
     override func flagsChanged(with event: NSEvent) {
         guard let map = Keys.macModifierMap[event.keyCode] else {
@@ -129,16 +169,7 @@ final class ClientView: NSView {
         return false
     }
     
-    private func handleKeyEvent(_ event: NSEvent, down: Bool) {
-        // “pure” modifiers are managed by flagsChanged
-        if Keys.macModifierKeycodes.contains(event.keyCode) { return }
-
-        guard let sym = Keys.keysym(for: event) else { return }
-
-        client?.sendKey(key: Int(sym), down: down)
-    }
-    
-    // MARK: - Mouse Handling
+    // MARK: - Mouse Handling Overrides
     
     override func mouseDown(with event: NSEvent) {
         sendMouseEvent(event, buttonMask: 1)
@@ -158,22 +189,6 @@ final class ClientView: NSView {
     
     override func mouseDragged(with event: NSEvent) {
         sendMouseEvent(event, buttonMask: 1)
-    }
-    
-    private func sendMouseEvent(_ event: NSEvent, buttonMask: Int) {
-        guard let client = client else { return }
-        let location = convert(event.locationInWindow, from: nil)
-        
-        let fbWidth = CGFloat(client.image.width)
-        let fbHeight = CGFloat(client.image.height)
-        
-        let scaleX = fbWidth / bounds.width
-        let scaleY = fbHeight / bounds.height
-        
-        let x = Int(location.x * scaleX)
-        let y = Int((bounds.height - location.y) * scaleY) // Flip Y axis
-        
-        client.sendMouse(x: x, y: y, buttons: buttonMask)
     }
     
     override func scrollWheel(with event: NSEvent) {
@@ -205,20 +220,6 @@ final class ClientView: NSView {
         } else if dy < 0 {
             client.sendMouse(x: x, y: y, buttons: buttonScrollDown)
             client.sendMouse(x: x, y: y, buttons: 0)
-        }
-    }
-
-    // MARK: - Helpers
-    
-    /// Determine if a certain modifier is pressed based on keyCode + flags.
-    private func isModifierPressed(_ keyCode: UInt16, flags: NSEvent.ModifierFlags) -> Bool {
-        switch keyCode {
-        case 55, 54: return flags.contains(.command)
-        case 59, 62: return flags.contains(.control)
-        case 58, 61: return flags.contains(.option)
-        case 56, 60: return flags.contains(.shift)
-        default:
-            return false
         }
     }
 }
