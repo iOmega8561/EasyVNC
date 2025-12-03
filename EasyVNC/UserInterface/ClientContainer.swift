@@ -75,6 +75,7 @@ struct ClientContainer: View {
                 ToolbarItem {
                     Toggle("action-log-toggle", systemImage: "apple.terminal",
                                                 isOn: $showLogs)
+                        .labelStyle(.titleAndIcon)
                         .disabled(!client.isConnected)
                 }
             }

@@ -30,7 +30,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostra i log VNC"
+            "value" : "Mostra log VNC"
           }
         }
       }

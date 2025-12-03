@@ -30,22 +30,28 @@ struct ClientLogView: View {
     @State private var logLines: [String] = []
     
     var body: some View {
-        
-        ZStack(alignment: .topLeading) {
-            
-            ScrollView {
-                VStack(alignment: .leading) {
-                    
-                    ForEach(logLines, id: \.self) { line in
-                        Text(line)
-                            .foregroundStyle(.white)
-                    }
+    
+        ScrollView {
+            VStack(alignment: .leading) {
+                
+                ForEach(logLines, id: \.self) { line in
+                    Text(line)
+                        .foregroundStyle(.white)
                 }
             }
-            .padding()
         }
-        .background(.black.opacity(0.5))
         .padding()
+        .background(.black.opacity(0.5))
+        
+        // Just to make this view a little flashy
+        .clipShape(.rect(cornerRadius: 10.0))
+        .overlay { RoundedRectangle(cornerRadius: 10.0)
+                        .stroke(Color.accentColor.opacity(0.6),
+                                style: .init(lineWidth: 3.0)) }
+        
+        // Second padding for text<->background spacing
+        .padding()
+        // Finally, log tasks
         .onAppear(perform: startReading)
         .onDisappear(perform: stopReading)
     }
