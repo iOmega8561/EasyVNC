@@ -61,9 +61,16 @@ final class ClientView: NSView {
         
         // Install the local event monitor
         keyMonitor = NSEvent.addLocalMonitorForEvents(matching: [.keyDown, .keyUp, .flagsChanged]) { [weak self] event in
-            guard let self = self else { return event }
+            
+            // 1. The VNC window must exist
+            // 2. The event must be originated from the parent window
+            // 3. The window must also be keyWindow
+            guard let window = unsafe self?.window,
+                  event.window === window,
+                  window.isKeyWindow else { return event /* let it go */ }
+            
             // Intercept & handle the event ourselves.
-            self.handleLocalEvent(event)
+            self?.handleLocalEvent(event)
             
             // Return nil so it doesn’t propagate to the normal responder chain / menu
             return nil
