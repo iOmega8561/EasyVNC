@@ -86,13 +86,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "server.domain.tld"
+            "value" : "Insert an Address"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "server.dominio.tld"
+            "value" : "Inserisci un indirizzo"
           }
         }
       }
