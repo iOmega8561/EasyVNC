@@ -33,7 +33,6 @@ struct EasyVNCApp: App {
         
         Window("window-main-title", id: "main") {
             NewConnectionView()
-                .frame(width: 300, height: 350)
         }
         .commands {
             CommandGroup(after: .windowArrangement) {
