@@ -55,7 +55,7 @@ struct NewConnectionView: View {
                               text: $connection.username,
                               prompt: .init("placeholder-authentication-username"))
                
-                    TextField("title-authentication-password",
+                    SecureField("title-authentication-password",
                               text: $connection.password,
                               prompt: .init("placeholder-authentication-password"))
                 }
