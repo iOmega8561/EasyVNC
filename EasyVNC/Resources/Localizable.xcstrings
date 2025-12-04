@@ -54,13 +54,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "MyVNCUsername"
+            "value" : "Insert Password"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "UtenteVNC"
+            "value" : "Inserisci una password"
           }
         }
       }
@@ -70,13 +70,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "MyVNCPassword"
+            "value" : "Not Required"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "PasswordVNC"
+            "value" : "Non richiesto"
           }
         }
       }
