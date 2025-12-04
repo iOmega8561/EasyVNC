@@ -30,5 +30,6 @@
 #import "ClientWrapper.h"
 #import "ClientDelegate.h"
 #import "ClientLogger.h"
+#import "Connection.h"
 
 #endif /* Bridging_Header_h */
