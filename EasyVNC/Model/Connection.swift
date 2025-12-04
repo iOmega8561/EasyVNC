@@ -24,11 +24,25 @@
 
 struct Connection: Codable, Hashable {
     
-    var host: String = "localhost"
-    var port: Int = 5900
+    var host:     String = ""
+    var port:     Int    = 5900
     
-    var isValid: Bool { !(host.count == 0 ||
-                          port < 1024) }
+    var username: String = ""
+    var password: String = ""
+    
+    var mustAuth: Bool   = false
+    
+    var isValid:  Bool {
+        let connValid = !host.isEmpty && port > 1024
+        
+        if mustAuth {
+            return !username.isEmpty &&
+                   !password.isEmpty &&
+                   connValid
+        }
+        
+        return connValid
+    }
     
     var title: String { "\(host):\(port)" }
 }
