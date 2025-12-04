@@ -27,8 +27,10 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
+
 #import "ClientWrapper.h"
 #import "ClientDelegate.h"
+#import "Connection.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"
@@ -40,13 +42,13 @@
 @interface ClientWrapper : NSObject
 
 @property (nonatomic, weak)   id<ClientDelegate> delegate;
-@property (nonatomic, strong) dispatch_queue_t clientQueue;
-@property (nonatomic, strong) dispatch_source_t eventTimer;
-@property (atomic, assign)    BOOL runEventLoop;
-@property (nonatomic, assign) rfbClient *client;
+@property (nonatomic, strong)   dispatch_queue_t clientQueue;
+@property (nonatomic, strong)  dispatch_source_t eventTimer;
+@property (atomic, assign)                  BOOL runEventLoop;
+@property (nonatomic, assign)          rfbClient *client;
+@property (nonatomic, strong)         Connection *connection;
 
-- (void)connectToHost:(NSString *)host
-                 port:(int)port;
+- (void)initiateConnectionWith:(Connection *)connection;
 
 - (void)cleanupDisconnect;
 

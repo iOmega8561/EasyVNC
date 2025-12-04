@@ -25,6 +25,7 @@
 #import <Foundation/Foundation.h>
 #import <dispatch/dispatch.h>
 #import <unistd.h>
+
 #import "ClientWrapper.h"
 #import "Callbacks.h"
 
@@ -40,21 +41,24 @@
 
 #pragma mark - Connection Methods
 
-- (void)connectToHost:(NSString *)host port:(int)port {
+- (void)initiateConnectionWith:(Connection *)connection {
     dispatch_async(self.clientQueue, ^{
         
-        if (self.client) { return; }
+        if (self.client || self.connection) { return; }
         
         // Create a new rfbClient instance.
         rfbClient *client = rfbGetClient(8, 3, 4);
         if (!client) { return; }
         
+        // Acquire strong reference to Connection object
+        self.connection = connection;
+        
         // Set up callbacks, along with host and port
         client->MallocFrameBuffer = resize_callback;
         client->GotFrameBufferUpdate = framebuffer_update_callback;
         client->canHandleNewFBSize = TRUE;
-        client->serverHost = strdup([host UTF8String]);
-        client->serverPort = port;
+        client->serverHost = strdup([[connection host] UTF8String]);
+        client->serverPort = (int32_t)[connection port];
         
         // Attempt to initialize the client.
         if (!rfbInitClient(client, NULL, NULL)) { return; }
@@ -149,6 +153,7 @@
     self = [super init];
     if (self) {
         _client = NULL;
+        _connection = NULL;
         // libVNCClient recommends to always access the client on
         // the same thread. we're gonna use a serial queue for safety.
         _clientQueue = dispatch_queue_create("com.EasyVNC.ClientQueue",
