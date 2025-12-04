@@ -22,11 +22,12 @@
 //  Created by Giuseppe Rocco on 31/03/25.
 //
 
+import Foundation
+
 struct Connection: Codable, Hashable {
-    
     var host:     String = ""
     var port:     Int    = 5900
-    
+        
     var username: String = ""
     var password: String = ""
     
