@@ -39,12 +39,12 @@
 
 @implementation ClientWrapper
 
-#pragma mark - Connection Methods
+// MARK: - Connection Facilities
 
 - (void)initiateConnectionWith:(Connection *)connection {
     dispatch_async(self.clientQueue, ^{
         
-        if (self.client || self.connection) { return; }
+        if (self.client || self.connection) return;
         
         // Create a new rfbClient instance.
         rfbClient *client = rfbGetClient(8, 3, 4);
@@ -56,15 +56,18 @@
         // Set up callbacks, along with host and port
         client->MallocFrameBuffer = resize_callback;
         client->GotFrameBufferUpdate = framebuffer_update_callback;
+        client->GetCredential = client_credential_callback;
+        client->GetPassword = client_password_callback;
         client->canHandleNewFBSize = TRUE;
         client->serverHost = strdup([[connection host] UTF8String]);
         client->serverPort = (int32_t)[connection port];
         
+        // Set the clientData to self so callbacks can call delegate methods.
+        rfbClientSetClientData(client, &kVNCClientTag, (__bridge void *)self);
+        
         // Attempt to initialize the client.
         if (!rfbInitClient(client, NULL, NULL)) { return; }
         
-        // Set the clientData to self so callbacks can call delegate methods.
-        rfbClientSetClientData(client, &kVNCClientTag, (__bridge void *)self);
         self.client = client;
         self.runEventLoop = YES;
         
@@ -102,6 +105,8 @@
     }
 }
 
+// MARK: - EventLoop Management
+
 - (void)startEventLoopTimer {
     self.eventTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER,
                                              0,
@@ -131,7 +136,7 @@
     dispatch_resume(self.eventTimer);
 }
 
-#pragma mark - Input Events
+// MARK: - Input Events Forwarding
 
 - (void)sendPointerEventWithX:(int)x y:(int)y buttonMask:(int)mask {
     dispatch_async(self.clientQueue, ^{
@@ -147,7 +152,7 @@
     });
 }
 
-#pragma mark - Initialization
+// MARK: - Initialization
 
 - (instancetype)init {
     self = [super init];
