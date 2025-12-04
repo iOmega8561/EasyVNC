@@ -42,8 +42,12 @@ final class ViewModel: NSObject, ObservableObject {
                 
         client.delegate = self
 
-        client.connect(toHost: connection.host,
-                       port: .init(connection.port))
+        client.initiateConnection(with: .init(
+            host: connection.host,
+            port: connection.port,
+            username: connection.username,
+            password: connection.password
+        ))
     }
 
     func sendKey(key: Int, down: Bool) {
