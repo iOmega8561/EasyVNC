@@ -37,8 +37,7 @@ struct Connection: Codable, Hashable {
         let connValid = !host.isEmpty && port > 1024
         
         if mustAuth {
-            return !username.isEmpty &&
-                   !password.isEmpty &&
+            return !password.isEmpty &&
                    connValid
         }
         
