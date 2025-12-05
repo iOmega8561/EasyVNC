@@ -130,6 +130,7 @@ char* client_password_callback(rfbClient *cl) {
 rfbCredential* client_credential_callback(rfbClient* cl, int credentialType) {
         
     // There's no point in moving forward if this fails.
+    // This method only supports plain VeNCrypt/MSLogon authentication.
     if (credentialType != rfbCredentialTypeUser) {
         rfbClientErr("Authentication does not require USERNAME\n");
         return NULL;
