@@ -14,6 +14,9 @@ The goal of this project is to provide a lightweight, native macOS VNC viewer wi
 - ⌨️ Send basic keyboard inputs
 - 🔓 Supports basic **VNC Password** and **plain VeNCrypt**
 
+> [!IMPORTANT]
+> VNC is based on a very old protocol. Nowadays it really is not considered safe to expose a VNC server to the internet. Due to this fact, EasyVNC is design to **not support** encrypted connection with **SSL** or **TLS**. If you want to host a VNC server, my personal recommendation is to expose it behind a modern and secure VPN.
+
 ## 📦 Tech Stack
 
 - **SwiftUI** for the user interface
@@ -33,3 +36,7 @@ The goal of this project is to provide a lightweight, native macOS VNC viewer wi
 ## 🛠 Build Notes
 
 Make sure to run ```Third-Party/setup-dependencies.sh```, then link the resulting `.a` and headers into your Xcode project
+
+## Privacy
+
+EasyVNC respects your privacy and does not collect, store, or transmit any personal information or user data. The application only connects to the internet if the user wants to access external VNC servers.
