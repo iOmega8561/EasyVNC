@@ -46,8 +46,7 @@ struct ClientContainer: View {
                    maxHeight: client.isConnected ? nil : client.image.cgHeight)
             
             // always fit, we don't like streched views
-            .aspectRatio(client.image.aspectRatio,
-                         contentMode: .fit)
+            .aspectRatio(contentMode: .fit)
             
             .task { @MainActor in
                 
