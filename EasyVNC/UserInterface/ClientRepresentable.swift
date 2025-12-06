@@ -26,10 +26,14 @@ import SwiftUI
 
 struct ClientRepresentable: NSViewRepresentable {
     
+    // Stores the height of the window toolbar/titlebar
     @State private var toolbarHeight: CGFloat? = nil
     
+    // View model driving the content of the ClientView
     @ObservedObject var client: ViewModel
 
+    // Calculates the toolbar height by subtracting the content height
+    // from the full window frame height
     private func getToolbarHeight(_ nsView: ClientView) {
         guard let totalWindowHeight = unsafe nsView.window?.frame.height else {
             return
@@ -37,8 +41,11 @@ struct ClientRepresentable: NSViewRepresentable {
         self.toolbarHeight = totalWindowHeight - nsView.frame.height
     }
     
+    // Sets the window aspect ratio based on the content size
+    // plus the previously measured toolbar height
     private func setAspectRatio(_ nsView: ClientView) {
         guard let toolbarHeight else {
+            // If the toolbar height is not known yet, compute it on the next runloop
             return DispatchQueue.main.async { getToolbarHeight(nsView) }
         }
         unsafe nsView.window?.aspectRatio = NSSizeFromCGSize(
@@ -46,12 +53,14 @@ struct ClientRepresentable: NSViewRepresentable {
         )
     }
     
+    // Creates the underlying AppKit view and injects the view model
     func makeNSView(context: Context) -> ClientView {
         let view = ClientView()
         view.client = client
         return view
     }
 
+    // Updates the AppKit view when SwiftUI state changes
     func updateNSView(_ nsView: ClientView, context: Context) {
         nsView.image = client.image
         setAspectRatio(nsView)
