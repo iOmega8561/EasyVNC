@@ -51,10 +51,11 @@ struct ClientContainer: View {
             
             .task { @MainActor in
                 
-                guard let connection else { dismiss(); return }
+                guard let connection else {
+                    return dismiss()
+                }
                 
-                client.connect(host: connection.host,
-                               port: connection.port)
+                client.connect(connection)
             }
             
             // For now, dismiss on disconnect. Will change.

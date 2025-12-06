@@ -16,33 +16,31 @@
 //
 //  ----------------------------------------------------------------------
 //
-//  Connection.swift
+//  Connection.h
 //  EasyVNC
 //
-//  Created by Giuseppe Rocco on 31/03/25.
+//  Created by Giuseppe Rocco on 04/12/25.
 //
 
-import Foundation
+#ifndef Connection_h
+#define Connection_h
 
-struct Connection: Codable, Hashable {
-    var host:     String = ""
-    var port:     Int    = 5900
-        
-    var username: String = ""
-    var password: String = ""
+#import <Foundation/Foundation.h>
+
+@interface Connection : NSObject
     
-    var mustAuth: Bool   = false
-    
-    var isValid:  Bool {
-        let connValid = !host.isEmpty && port > 1024
-        
-        if mustAuth {
-            return !password.isEmpty &&
-                   connValid
-        }
-        
-        return connValid
-    }
-    
-    var title: String { "\(host):\(port)" }
-}
+@property (nonatomic, copy, readonly)   NSString *host;
+@property (nonatomic, assign, readonly) NSInteger port;
+@property (nonatomic, copy, readonly)   NSString *username;
+@property (nonatomic, copy, readonly)   NSString *password;
+
+- (instancetype)initWithHost:(NSString *)host
+                        port:(NSInteger)port
+                    username:(NSString *)username
+                    password:(NSString *)password NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)init NS_UNAVAILABLE;
+
+@end
+
+#endif /* Connection_h */

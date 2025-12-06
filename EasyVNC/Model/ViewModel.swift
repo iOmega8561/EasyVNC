@@ -38,12 +38,16 @@ final class ViewModel: NSObject, ObservableObject {
     
     func disconnect() { client.cleanupDisconnect() }
 
-    func connect(host: String, port: Int) {
-        
+    func connect(_ connection: Connection) {
+                
         client.delegate = self
-        
-        client.connect(toHost: host,
-                       port: Int32(port))
+
+        client.initiateConnection(with: .init(
+            host: connection.host,
+            port: connection.port,
+            username: connection.username,
+            password: connection.password
+        ))
     }
 
     func sendKey(key: Int, down: Bool) {

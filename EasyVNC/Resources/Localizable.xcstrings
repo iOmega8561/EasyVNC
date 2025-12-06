@@ -1,8 +1,23 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "action-auth-toggle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Authentication"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autenticazione"
+          }
+        }
+      }
+    },
     "action-connect" : {
-      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -19,7 +34,6 @@
       }
     },
     "action-log-toggle" : {
-      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -35,8 +49,103 @@
         }
       }
     },
+    "placeholder-authentication-password" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insert Password"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inserisci una password"
+          }
+        }
+      }
+    },
+    "placeholder-authentication-username" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not Required"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non richiesto"
+          }
+        }
+      }
+    },
     "placeholder-connection-host" : {
-      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insert an Address"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inserisci un indirizzo"
+          }
+        }
+      }
+    },
+    "title-authentication-password" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Password"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Password"
+          }
+        }
+      }
+    },
+    "title-authentication-section" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Server Credentials"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Credenziali del server"
+          }
+        }
+      }
+    },
+    "title-authentication-username" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Username"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utente"
+          }
+        }
+      }
+    },
+    "title-connection-host" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -52,8 +161,7 @@
         }
       }
     },
-    "placeholder-connection-port" : {
-      "extractionState" : "manual",
+    "title-connection-port" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -69,42 +177,23 @@
         }
       }
     },
-    "title-connection-host" : {
-      "extractionState" : "manual",
+    "title-connection-section" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Server Address"
+            "value" : "Connection Details"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Indirizzo del server"
-          }
-        }
-      }
-    },
-    "title-connection-port" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "TCP Port"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Porto TCP"
+            "value" : "Dettagli della connessione"
           }
         }
       }
     },
     "title-invalid-connection" : {
-      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -121,7 +210,6 @@
       }
     },
     "title-new-connection" : {
-      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -132,13 +220,12 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nuova Connessione"
+            "value" : "Nuova connessione"
           }
         }
       }
     },
     "window-connection-title" : {
-      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -155,7 +242,6 @@
       }
     },
     "window-main-title" : {
-      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -166,7 +252,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nuova Connessione"
+            "value" : "Nuova connessione"
           }
         }
       }

@@ -22,10 +22,10 @@
 //  Created by Giuseppe Rocco on 03/12/25.
 //
 
+#import <Foundation/Foundation.h>
+
 #import "ClientLogger.h"
 #import "Callbacks.h"
-
-#import <Foundation/Foundation.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"
@@ -40,7 +40,6 @@
 #pragma mark - Class stub
 
 + (instancetype)shared {
-    
     static ClientLogger *logger;
     static dispatch_once_t onceToken;
     
@@ -58,11 +57,9 @@
 #pragma mark - Instance methods
 
 - (void)writeLogData:(NSData *)data {
-    
     if (!data.length) return;
 
     dispatch_async(self.writeQueue, ^{
-        
         @autoreleasepool {
             NSFileHandle *fileHandle = self.pipe.fileHandleForWriting;
             

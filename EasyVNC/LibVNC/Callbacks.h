@@ -32,16 +32,27 @@
 
 #pragma clang diagnostic pop
 
+// rfbClient content TAG.
 extern int kVNCClientTag;
 
+// MARK: - Remote Framebuffer Resize Callback
 rfbBool resize_callback(struct _rfbClient *cl);
 
+// MARK: - Remote Framebuffer Update Callback
 void framebuffer_update_callback(struct _rfbClient *cl,
-                                                 int x,
-                                                 int y,
-                                                 int w,
-                                                 int h);
+                                               int x,
+                                               int y,
+                                               int w,
+                                               int h);
 
+// MARK: - libVNCClient Logging Facility
 void client_log_callback(const char *format, ...);
+
+// MARK: - libVNCClient GetPassword Facility
+char* client_password_callback(rfbClient *cl);
+
+// MARK: - libVNCClient GetCredential Facility
+rfbCredential* client_credential_callback(rfbClient* cl,
+                                                 int credentialType);
 
 #endif /* Callbacks_h */

@@ -33,34 +33,59 @@ struct NewConnectionView: View {
     
     var body: some View {
         
-        VStack(spacing: 48) {
+        VStack(spacing: 40) {
             
             Text(verbatim: "EasyVNC")
                 .font(.custom("ArialNarrow-BoldItalic", size: 42))
             
-            VStack(alignment: .leading) {
-                Text("title-connection-host")
-                
-                TextField("placeholder-connection-host",
-                          text: $connection.host)
+            Form {
+                Section("title-connection-section") {
+                    TextField("title-connection-host",
+                              text: $connection.host,
+                              prompt: .init("placeholder-connection-host"))
+               
+                    TextField("title-connection-port",
+                              value: $connection.port,
+                              formatter: NumberFormatter())
+                    .padding(.bottom)
+                }
+            
+                Section("title-authentication-section") {
+                    TextField("title-authentication-username",
+                              text: $connection.username,
+                              prompt: .init("placeholder-authentication-username"))
+               
+                    SecureField("title-authentication-password",
+                              text: $connection.password,
+                              prompt: .init("placeholder-authentication-password"))
+                }
+                .disabled(!connection.mustAuth)
+                .opacity(connection.mustAuth ? 1 : 0.5)
             }
             
-            VStack(alignment: .leading) {
-                Text("title-connection-port")
+            HStack {
+                Toggle("action-auth-toggle",
+                       systemImage: "key",
+                       isOn: $connection.mustAuth)
+                .labelStyle(.iconOnly)
+                .imageScale(.small)
+                .toggleStyle(.button)
                 
-                TextField("placeholder-connection-port",
-                          value: $connection.port,
-                          formatter: NumberFormatter())
+                Spacer()
+                
+                Button("action-connect",
+                       systemImage: "app.connected.to.app.below.fill") {
+                    openWindow(id: "connection",
+                               value: connection)
+                    connection = .init()
+                    dismiss()
+                }
+                .labelStyle(.titleAndIcon)
+                .imageScale(.medium)
+                .disabled(!connection.isValid)
             }
-            
-            Button("action-connect") {
-                openWindow(id: "connection",
-                           value: connection)
-                connection = .init()
-                dismiss()
-            }
-            .disabled(!connection.isValid)
         }
-        .padding()        
+        .padding()
+        .frame(width: 325, height: 375)
     }
 }
