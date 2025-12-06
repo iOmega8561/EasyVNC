@@ -41,18 +41,12 @@
 
 @interface ClientService : NSObject
 
-@property (nonatomic, weak)   id<ClientDelegate> delegate;
-@property (nonatomic, strong)   dispatch_queue_t clientQueue;
-@property (nonatomic, strong)  dispatch_source_t eventTimer;
-@property (atomic, assign)                  BOOL runEventLoop;
-@property (nonatomic, assign)          rfbClient *client;
-@property (nonatomic, strong)         Connection *connection;
+@property (nonatomic, weak) id<ClientDelegate> delegate;
+@property (nonatomic, strong)       Connection *connection;
 
 - (void)initiateConnectionWith:(Connection *)connection;
 
 - (void)cleanupDisconnect;
-
-- (void)startEventLoopTimer;
 
 - (void)sendPointerEventWithX:(int)x
                             y:(int)y

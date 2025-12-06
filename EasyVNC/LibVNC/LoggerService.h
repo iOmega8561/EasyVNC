@@ -36,8 +36,6 @@
 
 // Any vnc log will be redirected to this NSPipe.
 @property (nonatomic, strong, readonly) NSPipe *pipe;
-// And we also make sure to execute on a serial queue
-@property (nonatomic, strong)           dispatch_queue_t writeQueue;
 
 // This will be used by the appropriate callback
 - (void)writeLogData:(NSData *)data;

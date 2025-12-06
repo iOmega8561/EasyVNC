@@ -35,9 +35,14 @@
 
 #pragma clang diagnostic pop
 
-@implementation LoggerService
+@implementation LoggerService {
 
-#pragma mark - Class stub
+//  MARK: - Instance Variables (private)
+//  NSPipe is managed on a serial queue
+    dispatch_queue_t writeQueue;
+}
+
+// MARK: - Singleton (class property)
 
 + (instancetype)shared {
     static LoggerService *logger;
@@ -54,12 +59,12 @@
     return logger;
 }
 
-#pragma mark - Instance methods
+// MARK: - Instance methods
 
 - (void)writeLogData:(NSData *)data {
     if (!data.length) return;
 
-    dispatch_async(self.writeQueue, ^{
+    dispatch_async(self->writeQueue, ^{
         @autoreleasepool {
             NSFileHandle *fileHandle = self.pipe.fileHandleForWriting;
             
@@ -75,7 +80,7 @@
     });
 }
 
-#pragma mark - Initialization
+// MARK: - Initialization
 
 // The "public" init shouldn't be used. See "shared" instead.
 - (instancetype)init NS_UNAVAILABLE { return nil; }
@@ -85,8 +90,8 @@
     self = [super init];
     if (self) {
         _pipe = [NSPipe pipe];
-        _writeQueue = dispatch_queue_create("com.EasyVNC.LoggerQueue",
-                                            DISPATCH_QUEUE_SERIAL);
+        writeQueue = dispatch_queue_create("com.EasyVNC.LoggerQueue",
+                                           DISPATCH_QUEUE_SERIAL);
     }
     return self;
 }

@@ -37,14 +37,23 @@
 
 #pragma clang diagnostic pop
 
-@implementation ClientService
+@implementation ClientService {
+    
+//  MARK: - Instance Variables (private)
+//  rfbClient is managed on a serial queue
+     dispatch_queue_t clientQueue;
+//  The event loop is a non-blocking GCD timer
+    dispatch_source_t eventTimer;
+                 BOOL runEventLoop;
+            rfbClient *client;
+}
 
 // MARK: - Connection Facilities
 
 - (void)initiateConnectionWith:(Connection *)connection {
-    dispatch_async(self.clientQueue, ^{
+    dispatch_async(self->clientQueue, ^{
         
-        if (self.client || self.connection) return;
+        if (self->client || self.connection) return;
         
         // Create a new rfbClient instance.
         rfbClient *client = rfbGetClient(8, 3, 4);
@@ -68,8 +77,8 @@
         // Attempt to initialize the client.
         if (!rfbInitClient(client, NULL, NULL)) { return; }
         
-        self.client = client;
-        self.runEventLoop = YES;
+        self->client = client;
+        self->runEventLoop = YES;
         
         // Start the event loop.
         [self startEventLoopTimer];
@@ -82,22 +91,22 @@
 }
 
 - (void)cleanupDisconnect {
-    if (self.eventTimer) {
-        dispatch_source_cancel(self.eventTimer);
-        self.eventTimer = nil;
+    if (self->eventTimer) {
+        dispatch_source_cancel(self->eventTimer);
+        self->eventTimer = nil;
     }
 
-    if (self.client) {
+    if (self->client) {
         // Making sure the client isn't referenced
         // anymore by this wrapper. Could be a mess otherwise.
-        rfbClient *client = self.client;
-        self.client = NULL;
+        rfbClient *client = self->client;
+        self->client = NULL;
         
         // Only then, we clean it up
         rfbClientCleanup(client);
     }
 
-    self.runEventLoop = NO;
+    self->runEventLoop = NO;
 
     if (self.delegate) {
         // Let's make sure the UI gets updated
@@ -108,47 +117,47 @@
 // MARK: - EventLoop Management
 
 - (void)startEventLoopTimer {
-    self.eventTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER,
+    self->eventTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER,
                                              0,
                                              0,
-                                             self.clientQueue);
+                                              self->clientQueue);
     // 1 millisecond is a good compromise.
     // Can be made adjustable in the future.
-    dispatch_source_set_timer(self.eventTimer,
+    dispatch_source_set_timer(self->eventTimer,
                               DISPATCH_TIME_NOW,
                               NSEC_PER_MSEC,
                               NSEC_PER_MSEC);
     // Instead of a blocking while loop, we let good old GCD
     // do the heavy lifting. This handler is not blocking.
-    dispatch_source_set_event_handler(self.eventTimer, ^{
-        if (self.runEventLoop &&
-            self.client &&
-            self.client->sock != -1
+    dispatch_source_set_event_handler(self->eventTimer, ^{
+        if (self->runEventLoop &&
+            self->client &&
+            self->client->sock != -1
         ) {
-            if (WaitForMessage(self.client, 0) > 0 &&
-                !HandleRFBServerMessage(self.client)
+            if (WaitForMessage(self->client, 0) > 0 &&
+                !HandleRFBServerMessage(self->client)
             ) {
-                self.runEventLoop = NO;
+                self->runEventLoop = NO;
             }
         } else { [self cleanupDisconnect]; }
     });
     // Everything's ready, let's start the timer
-    dispatch_resume(self.eventTimer);
+    dispatch_resume(self->eventTimer);
 }
 
 // MARK: - Input Events Forwarding
 
 - (void)sendPointerEventWithX:(int)x y:(int)y buttonMask:(int)mask {
-    dispatch_async(self.clientQueue, ^{
-        if (self.client)
-            SendPointerEvent(self.client, x, y, mask);
+    dispatch_async(self->clientQueue, ^{
+        if (self->client)
+            SendPointerEvent(self->client, x, y, mask);
     });
 }
 
 - (void)sendKeyEvent:(int)key down:(BOOL)down {
-    dispatch_async(self.clientQueue, ^{
-        if (self.client)
-            SendKeyEvent(self.client, key, down);
+    dispatch_async(self->clientQueue, ^{
+        if (self->client)
+            SendKeyEvent(self->client, key, down);
     });
 }
 
@@ -157,13 +166,13 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _client = NULL;
         _connection = NULL;
+        client = NULL;
         // libVNCClient recommends to always access the client on
         // the same thread. we're gonna use a serial queue for safety.
-        _clientQueue = dispatch_queue_create("com.EasyVNC.ClientQueue",
+        clientQueue = dispatch_queue_create("com.EasyVNC.ClientQueue",
                                              DISPATCH_QUEUE_SERIAL);
-        _runEventLoop = NO;
+        runEventLoop = NO;
     }
     return self;
 }
