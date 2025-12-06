@@ -1,0 +1,15 @@
+{
+  "originHash" : "98a3f952cf87f7bfb2976029337bf87912d9e98a702506dd6830df899a3a16be",
+  "pins" : [
+    {
+      "identity" : "tools4swiftui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/iOmega8561/Tools4SwiftUI",
+      "state" : {
+        "branch" : "master",
+        "revision" : "a32546b2b937f82d54e56b7eafddf45d255beba3"
+      }
+    }
+  ],
+  "version" : 3
+}

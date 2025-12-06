@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E3479CC12EE48EFD0000BD4E /* Tools4SwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = E3479CC02EE48EFD0000BD4E /* Tools4SwiftUI */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		E360A1DA2D9AAA8600DC96EB /* EasyVNC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyVNC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E360A1ED2D9AAB6F00DC96EB /* setup-dependencies.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "setup-dependencies.sh"; sourceTree = "<group>"; };
@@ -87,6 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3479CC12EE48EFD0000BD4E /* Tools4SwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,6 +147,7 @@
 			);
 			name = EasyVNC;
 			packageProductDependencies = (
+				E3479CC02EE48EFD0000BD4E /* Tools4SwiftUI */,
 			);
 			productName = VNCViewer;
 			productReference = E360A1DA2D9AAA8600DC96EB /* EasyVNC.app */;
@@ -173,6 +179,7 @@
 			mainGroup = E360A1D12D9AAA8600DC96EB;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				E3479CBF2EE48EFD0000BD4E /* XCRemoteSwiftPackageReference "Tools4SwiftUI" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E360A1DB2D9AAA8600DC96EB /* Products */;
@@ -455,6 +462,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E3479CBF2EE48EFD0000BD4E /* XCRemoteSwiftPackageReference "Tools4SwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/iOmega8561/Tools4SwiftUI";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E3479CC02EE48EFD0000BD4E /* Tools4SwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E3479CBF2EE48EFD0000BD4E /* XCRemoteSwiftPackageReference "Tools4SwiftUI" */;
+			productName = Tools4SwiftUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E360A1D22D9AAA8600DC96EB /* Project object */;
 }

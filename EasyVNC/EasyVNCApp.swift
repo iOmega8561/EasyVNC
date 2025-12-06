@@ -22,7 +22,7 @@
 //  Created by Giuseppe Rocco on 31/03/25.
 //
 
-import SwiftUI
+import Tools4SwiftUI
 
 @main
 struct EasyVNCApp: App {
@@ -49,6 +49,11 @@ struct EasyVNCApp: App {
                     for: Connection.self
         ) {
             ClientContainer(connection: $0.wrappedValue)
+                .windowPresentation(
+                    [.autoHideToolbar, .autoHideMenuBar, .fullScreen],
+                    tabbingMode: .disallowed,
+                    backgroundColor: .black
+                )
         }
         .commandsRemoved()
         .windowResizability(.contentSize)

@@ -26,8 +26,26 @@ import SwiftUI
 
 struct ClientRepresentable: NSViewRepresentable {
     
+    @State private var toolbarHeight: CGFloat? = nil
+    
     @ObservedObject var client: ViewModel
 
+    private func getToolbarHeight(_ nsView: ClientView) {
+        guard let totalWindowHeight = unsafe nsView.window?.frame.height else {
+            return
+        }
+        self.toolbarHeight = totalWindowHeight - nsView.frame.height
+    }
+    
+    private func setAspectRatio(_ nsView: ClientView) {
+        guard let toolbarHeight else {
+            return DispatchQueue.main.async { getToolbarHeight(nsView) }
+        }
+        unsafe nsView.window?.aspectRatio = NSSizeFromCGSize(
+            .init(width: nsView.frame.width, height: nsView.frame.height + toolbarHeight)
+        )
+    }
+    
     func makeNSView(context: Context) -> ClientView {
         let view = ClientView()
         view.client = client
@@ -36,5 +54,6 @@ struct ClientRepresentable: NSViewRepresentable {
 
     func updateNSView(_ nsView: ClientView, context: Context) {
         nsView.image = client.image
+        setAspectRatio(nsView)
     }
 }
