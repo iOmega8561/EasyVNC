@@ -9,6 +9,7 @@
 /* Begin PBXFileReference section */
 		E360A1DA2D9AAA8600DC96EB /* EasyVNC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyVNC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E360A1ED2D9AAB6F00DC96EB /* setup-dependencies.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "setup-dependencies.sh"; sourceTree = "<group>"; };
+		E3F593A52EE459CA0000D5E1 /* setup-functions.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "setup-functions.sh"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -28,11 +29,10 @@
 			);
 			target = E360A1D92D9AAA8600DC96EB /* EasyVNC */;
 		};
-		E3AA08FB2EDEE93300F00DE9 /* Exceptions for "zlib" folder in "EasyVNC" target */ = {
+		E3F593A82EE459FD0000D5E1 /* Exceptions for "zlib" folder in "EasyVNC" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				lib/pkgconfig/zlib.pc,
-				share/man/man3/zlib.3,
+				lib/libz.a,
 			);
 			target = E360A1D92D9AAA8600DC96EB /* EasyVNC */;
 		};
@@ -68,7 +68,7 @@
 		E360D25B2D9AC0FD00DC96EB /* zlib */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				E3AA08FB2EDEE93300F00DE9 /* Exceptions for "zlib" folder in "EasyVNC" target */,
+				E3F593A82EE459FD0000D5E1 /* Exceptions for "zlib" folder in "EasyVNC" target */,
 			);
 			path = zlib;
 			sourceTree = "<group>";
@@ -117,6 +117,7 @@
 				E360EA772D9AC5F400DC96EB /* libjpeg */,
 				E360D25B2D9AC0FD00DC96EB /* zlib */,
 				E360A2032D9AB50D00DC96EB /* libvnc */,
+				E3F593A52EE459CA0000D5E1 /* setup-functions.sh */,
 				E360A1ED2D9AAB6F00DC96EB /* setup-dependencies.sh */,
 			);
 			path = "Third-Party";
@@ -139,7 +140,6 @@
 			);
 			fileSystemSynchronizedGroups = (
 				E360A1DC2D9AAA8600DC96EB /* EasyVNC */,
-				E360D25B2D9AC0FD00DC96EB /* zlib */,
 			);
 			name = EasyVNC;
 			packageProductDependencies = (
