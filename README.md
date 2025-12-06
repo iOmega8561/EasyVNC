@@ -15,7 +15,7 @@ The goal of this project is to provide a lightweight, native macOS VNC viewer wi
 - 🔓 Supports basic **VNC Password** and **plain VeNCrypt**
 
 > [!IMPORTANT]
-> VNC is based on a very old protocol. Nowadays it really is not considered safe to expose a VNC server to the internet. Due to this fact, EasyVNC is design to **not support** encrypted connection with **SSL** or **TLS**. If you want to host a VNC server, my personal recommendation is to expose it behind a modern and secure VPN.
+> VNC is based on a very old protocol. Nowadays it really is not considered safe to expose a VNC server to the internet. Due to this fact, EasyVNC is designed to **not support** encrypted connection with **SSL** or **TLS**. If you want to host a VNC server, my personal recommendation is to expose it behind a modern and secure VPN.
 
 ## 📦 Tech Stack
 
