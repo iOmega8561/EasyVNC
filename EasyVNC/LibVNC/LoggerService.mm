@@ -16,7 +16,7 @@
 //
 //  ----------------------------------------------------------------------
 //
-//  ClientLogger.mm
+//  LoggerService.mm
 //  EasyVNC
 //
 //  Created by Giuseppe Rocco on 03/12/25.
@@ -24,7 +24,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "ClientLogger.h"
+#import "LoggerService.h"
 #import "Callbacks.h"
 
 #pragma clang diagnostic push
@@ -35,12 +35,12 @@
 
 #pragma clang diagnostic pop
 
-@implementation ClientLogger
+@implementation LoggerService
 
 #pragma mark - Class stub
 
 + (instancetype)shared {
-    static ClientLogger *logger;
+    static LoggerService *logger;
     static dispatch_once_t onceToken;
     
     dispatch_once(&onceToken, ^{

@@ -28,7 +28,7 @@ import SwiftUI
 @MainActor
 final class ViewModel: NSObject, ObservableObject {
     
-    private let client: ClientWrapper = .init()
+    private let client: ClientService = .init()
 
     @Published
     var image: CGImage = .defaultImage

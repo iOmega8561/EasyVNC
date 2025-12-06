@@ -27,9 +27,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import "ClientWrapper.h"
 #import "ClientDelegate.h"
-#import "ClientLogger.h"
 #import "Connection.h"
+#import "ClientService.h"
+#import "LoggerService.h"
 
 #endif /* Bridging_Header_h */

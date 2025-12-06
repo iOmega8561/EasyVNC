@@ -63,7 +63,7 @@ struct ClientLogView: View {
     
     private func startReading() {
         
-        guard let pipe = ClientLogger.shared().pipe else {
+        guard let pipe = LoggerService.shared().pipe else {
             return
         }
         

@@ -16,18 +16,18 @@
 //
 //  ----------------------------------------------------------------------
 //
-//  ClientLogger.h
+//  LoggerService.h
 //  EasyVNC
 //
 //  Created by Giuseppe Rocco on 03/12/25.
 //
 
-#ifndef ClientLogger_h
-#define ClientLogger_h
+#ifndef LoggerService_h
+#define LoggerService_h
 
 #import <Foundation/Foundation.h>
 
-@interface ClientLogger : NSObject
+@interface LoggerService : NSObject
 
 // Singleton
 // From what i understand, libVNCClient only does global logging.
@@ -44,4 +44,4 @@
 
 @end
 
-#endif /* ClientLogger_h */
+#endif /* LoggerService_h */

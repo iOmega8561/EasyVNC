@@ -16,7 +16,7 @@
 //
 //  ----------------------------------------------------------------------
 //
-//  ClientWrapper.mm
+//  ClientService.mm
 //  EasyVNC
 //
 //  Created by Giuseppe Rocco on 31/03/25.
@@ -26,7 +26,7 @@
 #import <dispatch/dispatch.h>
 #import <unistd.h>
 
-#import "ClientWrapper.h"
+#import "ClientService.h"
 #import "Callbacks.h"
 
 #pragma clang diagnostic push
@@ -37,7 +37,7 @@
 
 #pragma clang diagnostic pop
 
-@implementation ClientWrapper
+@implementation ClientService
 
 // MARK: - Connection Facilities
 

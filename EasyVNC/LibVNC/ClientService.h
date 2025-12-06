@@ -16,7 +16,7 @@
 //
 //  ----------------------------------------------------------------------
 //
-//  ClientWrapper.h
+//  ClientService.h
 //  EasyVNC
 //
 //  Created by Giuseppe Rocco on 31/03/25.
@@ -28,7 +28,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
 
-#import "ClientWrapper.h"
+#import "ClientService.h"
 #import "ClientDelegate.h"
 #import "Connection.h"
 
@@ -39,7 +39,7 @@
 
 #pragma clang diagnostic pop
 
-@interface ClientWrapper : NSObject
+@interface ClientService : NSObject
 
 @property (nonatomic, weak)   id<ClientDelegate> delegate;
 @property (nonatomic, strong)   dispatch_queue_t clientQueue;
@@ -63,4 +63,4 @@
 
 @end
 
-#endif /* ClientWrapper_h */
+#endif /* ClientService_h */

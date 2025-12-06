@@ -24,9 +24,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import "ClientWrapper.h"
 #import "ClientDelegate.h"
-#import "ClientLogger.h"
+#import "ClientService.h"
+#import "LoggerService.h"
 #import "Callbacks.h"
 
 #pragma clang diagnostic push
@@ -70,15 +70,15 @@ rfbBool resize_callback(rfbClient *cl) {
 
 void framebuffer_update_callback(rfbClient *cl, int x, int y, int w, int h) {
     
-    ClientWrapper *wrapper = (__bridge ClientWrapper *) rfbClientGetClientData(cl, &kVNCClientTag);
+    ClientService *service = (__bridge ClientService *) rfbClientGetClientData(cl, &kVNCClientTag);
     
     // Basic NULL checks.
     // There's no point in moving forward if these fail.
-    if (!wrapper || !wrapper.delegate || !cl->frameBuffer) {
+    if (!service || !service.delegate || !cl->frameBuffer) {
         return;
     }
     // Safe enough to call the wrapper delegate's method.
-    [wrapper.delegate didUpdateFramebuffer:(const uint8_t *)cl->frameBuffer
+    [service.delegate didUpdateFramebuffer:(const uint8_t *)cl->frameBuffer
                                      width:cl->width
                                     height:cl->height
                                     stride:(cl->width * (cl->format.bitsPerPixel / 8))];
@@ -107,7 +107,7 @@ void client_log_callback(const char *format, ...) {
     
     // Converting to NSData enhances flexibility in this environment.
     NSData *data = [NSData dataWithBytes:buffer length:len];
-    [[ClientLogger shared] writeLogData:data];
+    [[LoggerService shared] writeLogData:data];
 }
 
 // MARK: - libVNCClient GetPassword Facility
@@ -115,13 +115,13 @@ void client_log_callback(const char *format, ...) {
 
 char* client_password_callback(rfbClient *cl) {
     
-    ClientWrapper *wrapper = (__bridge ClientWrapper *)rfbClientGetClientData(cl, &kVNCClientTag);
+    ClientService *service = (__bridge ClientService *)rfbClientGetClientData(cl, &kVNCClientTag);
     
     // Basic NULL checks
-    if (!wrapper || !wrapper.connection)
+    if (!service || !service.connection)
         return NULL;
     
-    return strdup([[wrapper.connection password] UTF8String]);
+    return strdup([[service.connection password] UTF8String]);
 }
 
 // MARK: - libVNCClient GetCredential Facility
@@ -144,14 +144,14 @@ rfbCredential* client_credential_callback(rfbClient* cl, int credentialType) {
     credential->userCredential.username = (char *)malloc(RFB_BUF_SIZE);
     credential->userCredential.password = (char *)malloc(RFB_BUF_SIZE);
     // This too, look below for NULL checks ...
-    ClientWrapper *wrapper = (__bridge ClientWrapper *)rfbClientGetClientData(cl, &kVNCClientTag);
+    ClientService *service = (__bridge ClientService *)rfbClientGetClientData(cl, &kVNCClientTag);
     
     // Now we can group these NULL checks, instead of having
     // a bazillion of if-statements in this callback function.
     if (!credential->userCredential.username ||
         !credential->userCredential.password ||
-        !wrapper ||
-        !wrapper.connection
+        !service ||
+        !service.connection
     ) {
         free(credential->userCredential.username);
         free(credential->userCredential.password);
@@ -160,8 +160,8 @@ rfbCredential* client_credential_callback(rfbClient* cl, int credentialType) {
     }
 
     // Dupe the strings and send back to the client. Source is NSString, empty is fine.
-    credential->userCredential.username = strdup([[wrapper.connection username] UTF8String]);
-    credential->userCredential.password = strdup([[wrapper.connection password] UTF8String]);
+    credential->userCredential.username = strdup([[service.connection username] UTF8String]);
+    credential->userCredential.password = strdup([[service.connection password] UTF8String]);
     return credential;
 }
  
