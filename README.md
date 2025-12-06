@@ -12,7 +12,7 @@ The goal of this project is to provide a lightweight, native macOS VNC viewer wi
 - 🖥️ Render the remote framebuffer in a SwiftUI view
 - 🖱️ Send basic mouse events (click and scroll)
 - ⌨️ Send basic keyboard inputs
-- 🔓 Authentication is **not supported** (for now)
+- 🔓 Supports basic **VNC Password** and **plain VeNCrypt**
 
 ## 📦 Tech Stack
 
