@@ -25,7 +25,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				lib/libvncclient.a,
-				lib/libvncserver.a,
 			);
 			target = E360A1D92D9AAA8600DC96EB /* EasyVNC */;
 		};
