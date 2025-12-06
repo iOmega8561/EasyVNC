@@ -55,34 +55,15 @@
         
         if (self->client || self.connection) return;
         
-        // Create a new rfbClient instance.
-        rfbClient *client = rfbGetClient(8, 3, 4);
-        if (!client) { return; }
+        self->client = [self makeAndSetupClient:(connection)];
+        if (!self->client) return;
         
         // Acquire strong reference to Connection object
         self.connection = connection;
-        
-        // Set up callbacks, along with host and port
-        client->MallocFrameBuffer = resize_callback;
-        client->GotFrameBufferUpdate = framebuffer_update_callback;
-        client->GetCredential = client_credential_callback;
-        client->GetPassword = client_password_callback;
-        client->canHandleNewFBSize = TRUE;
-        client->serverHost = strdup([[connection host] UTF8String]);
-        client->serverPort = (int32_t)[connection port];
-        
-        // Set the clientData to self so callbacks can call delegate methods.
-        rfbClientSetClientData(client, &kVNCClientTag, (__bridge void *)self);
-        
-        // Attempt to initialize the client.
-        if (!rfbInitClient(client, NULL, NULL)) { return; }
-        
-        self->client = client;
+        // Flag event loop ok to run
         self->runEventLoop = YES;
-        
         // Start the event loop.
         [self startEventLoopTimer];
-        
         // Update connection state for UI
         if (self.delegate) {
             [self.delegate handleConnectionStatusChange:(YES)];
@@ -114,7 +95,29 @@
     }
 }
 
-// MARK: - EventLoop Management
+// MARK: - Internal Helpers
+
+- (rfbClient *) makeAndSetupClient:(Connection *)connection {
+    // Create a new rfbClient instance.
+    rfbClient *client = rfbGetClient(8, 3, 4);
+    if (!client) { return NULL; }
+    
+    // Set up callbacks, along with host and port
+    client->MallocFrameBuffer = resize_callback;
+    client->GotFrameBufferUpdate = framebuffer_update_callback;
+    client->GetCredential = client_credential_callback;
+    client->GetPassword = client_password_callback;
+    client->canHandleNewFBSize = TRUE;
+    client->serverHost = strdup([[connection host] UTF8String]);
+    client->serverPort = (int32_t)[connection port];
+    
+    // Set the clientData to self so callbacks can call delegate methods.
+    rfbClientSetClientData(client, &kVNCClientTag, (__bridge void *)self);
+    
+    // Attempt to initialize the client.
+    if (!rfbInitClient(client, NULL, NULL)) { return NULL; }
+    return client;
+}
 
 - (void)startEventLoopTimer {
     self->eventTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER,
