@@ -27,15 +27,15 @@ import SwiftUI
 struct ClientLogView: View {
         
     @State private var handle: FileHandle?
-    @State private var logLines: [String] = []
+    @State private var logEntries: [LogEntry] = []
     
     var body: some View {
     
         ScrollView {
             VStack(alignment: .leading) {
                 
-                ForEach(logLines, id: \.self) { line in
-                    Text(line)
+                ForEach(logEntries) { entry in
+                    Text(entry.message)
                         .foregroundStyle(.white)
                 }
             }
@@ -44,8 +44,8 @@ struct ClientLogView: View {
         .background(.black.opacity(0.5))
         
         // Just to make this view a little flashy
-        .clipShape(.rect(cornerRadius: 10.0))
-        .overlay { RoundedRectangle(cornerRadius: 10.0)
+        .clipShape(.rect(cornerRadius: .bestRadius))
+        .overlay { RoundedRectangle(cornerRadius: .bestRadius)
                         .stroke(Color.accentColor.opacity(0.6),
                                 style: .init(lineWidth: 3.0)) }
         
@@ -77,7 +77,9 @@ struct ClientLogView: View {
                   let text = String(data: data, encoding: .utf8),
                   !text.isEmpty else { return }
             
-            DispatchQueue.main.async { logLines.append(text) }
+            DispatchQueue.main.async {
+                logEntries.append(.init(message: text))
+            }
         }
     }
 }
