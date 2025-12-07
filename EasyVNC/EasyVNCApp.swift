@@ -35,7 +35,7 @@ struct EasyVNCApp: App {
             NewConnectionView()
         }
         .commands {
-            CommandGroup(after: .windowArrangement) {
+            CommandGroup(after: .newItem) {
                 Button("title-new-connection", systemImage: "plus") {
                     openWindow(id: "main")
                 }
