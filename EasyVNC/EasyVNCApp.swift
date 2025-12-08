@@ -34,15 +34,17 @@ struct EasyVNCApp: App {
         Window("window-main-title", id: "main") {
             NewConnectionView()
         }
-        .commands {
-            CommandGroup(after: .newItem) {
-                Button("title-new-connection", systemImage: "plus") {
-                    openWindow(id: "main")
-                }
-                .keyboardShortcut("N", modifiers: .command)
-            }
-        }
         .windowResizability(.contentSize)
+        .removeCommand(for: .pasteboard)
+        .removeCommand(for: .toolbar)
+        .removeCommand(for: .undoRedo)
+        .editorCommands(
+            newDocumentAction: { await openWindow(id:"main") }
+        )
+        .helpCommands(
+            officialWebsiteURL: .officialRepositoryURL,
+            privacyPolicyURL: .privacyPolicyURL
+        )
         
         WindowGroup("window-connection-title",
                     id: "connection",

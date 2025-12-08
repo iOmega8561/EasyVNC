@@ -49,6 +49,24 @@
         }
       }
     },
+    "action-new-document" : {
+      "comment" : "Tools4SwiftUI Override",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Connection"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nuova connessione"
+          }
+        }
+      }
+    },
     "placeholder-authentication-password" : {
       "localizations" : {
         "en" : {
@@ -205,22 +223,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Connessione invalida"
-          }
-        }
-      }
-    },
-    "title-new-connection" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New Connection"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nuova connessione"
           }
         }
       }
